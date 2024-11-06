@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PulloutMenu from "../PulloutMenu/PulloutMenu";
+import PulloutMenu from "../PulldownMenu/PulldownMenu";
 import HamburgerSvg from "../HamburgerSvg/HamburgerSvg";
 
 function Nav() {
