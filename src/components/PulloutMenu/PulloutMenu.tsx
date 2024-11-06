@@ -12,7 +12,7 @@ function PulloutMenu(
     <>
       <div onClick={toggleMenu} className={
         "absolute top-0 right-0 w-screen h-screen bg-black transition-opacity duration-300 ease-in-out overflow-hidden "
-        + (isOpen ? "opacity-50 visible" : "opacity-0 invisible")
+        + (isOpen ? "opacity-50 visible" : "opacity-0 pointer-events-none")
       }></div>
       <div
         className={
