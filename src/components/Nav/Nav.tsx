@@ -11,7 +11,7 @@ function Nav() {
 
   return (
     <>
-      <div className="card mt-3">
+      <div className="card mt-3 sticky">
         <div className="flex justify-between">
           <img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" />
           {/* Hamburger menu */}
