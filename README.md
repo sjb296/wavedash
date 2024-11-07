@@ -2,7 +2,7 @@
 
 [![pages-build-deployment](https://github.com/sjb296/wavedash/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/sjb296/wavedash/actions/workflows/pages/pages-build-deployment)
 
-Welcome to the GitHub repository for Wavedash, a personal project by [Sam Barker](https://sambarker.xyz) hosted on [GitHub Pages](wavedash.sambarker.xyz).
+Welcome to the GitHub repository for Wavedash, a personal project by [Sam Barker](https://sambarker.xyz) hosted on [GitHub Pages](https://wavedash.sambarker.xyz).
 
 This project is a **specialised weather forecast dashboard** written to solve a real problem for myself and hopefully others, that is, to quickly and easily tell what days of the week are good for sea swimming and dinghy sailing. The idea is to eliminate the need to check four different websites for weather information on my struggling old phone.
 
