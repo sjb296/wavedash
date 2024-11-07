@@ -33,8 +33,16 @@
         @apply py-2 px-5 m-2 md:my-0 md:mx-1 grad-secondary font-semibold rounded-full shadow-md hover:bg-slate-700 focus:outline-none focus:ring focus:ring-slate-400 focus:ring-opacity-10;
     }
 
+    /* Single, full-width card with a background and a shadow */
     .card {
         @apply py-5 px-5 mx-5 my-1.5 bg-white shadow-md rounded-xl w-11/12 lg:w-1/2;
+    }
+    /* Two cards alongside each other in a transparent div */
+    .double-card {
+        @apply flex flex-row w-11/12 lg:w-1/2 gap-3;
+    }
+    .double-card > div {
+        @apply py-5 px-5 my-1.5 bg-white shadow-md rounded-xl w-1/2 flex justify-center;
     }
 
     .pulldown-darken {

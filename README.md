@@ -1,4 +1,4 @@
-# Wavedash - Your one-stop shop waves & wind
+# Wavedash - Your one-stop shop for waves & wind
 
 [![pages-build-deployment](https://github.com/sjb296/wavedash/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/sjb296/wavedash/actions/workflows/pages/pages-build-deployment)
 
