@@ -13,7 +13,7 @@ function Nav() {
     <>
       <div className="card mt-3 sticky">
         <div className="flex justify-between">
-          <img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" />
+          <a href="#"><img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" /></a>
           {/* Hamburger menu */}
           <button onClick={toggleMenu}>
             <HamburgerSvg />
