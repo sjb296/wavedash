@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PulloutMenu from "../PulldownMenu/PulldownMenu";
+import PulldownMenu from "../PulldownMenu/PulldownMenu";
 import HamburgerSvg from "../HamburgerSvg/HamburgerSvg";
 
 function Nav() {
@@ -20,7 +20,7 @@ function Nav() {
           </button>
         </div>
       </div>
-      <PulloutMenu isOpen={isOpen} toggleMenu={toggleMenu} />
+      <PulldownMenu isOpen={isOpen} toggleMenu={toggleMenu} />
     </>
   )
 }

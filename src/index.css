@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-    background-color: #f6fcff;
+    --background-color: #f6fcff;
+    background-color: var(--background-color);
     color: rgb(19, 34, 34);
 }
 
@@ -16,15 +17,32 @@
 }
 
 @layer components {
+    /* Blue-to-blue gradient */
+    .grad-primary {
+        @apply bg-gradient-to-br from-blue-500 to-blue-300;
+    }
+    .grad-secondary {
+        @apply bg-gradient-to-br from-slate-100 to-slate-50;
+    }
+
     /* Buttons */
     .btn-primary {
-        @apply py-2 px-5 m-2 md:my-0 md:mx-1 bg-gradient-to-br from-blue-500 to-blue-300 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-30;
+        @apply py-2 px-5 m-2 md:my-0 md:mx-1 grad-primary text-white font-semibold rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-30;
     }
     .btn-secondary {
-        @apply py-2 px-5 m-2 md:my-0 md:mx-1 bg-gradient-to-br from-slate-100 to-slate-50 font-semibold rounded-full shadow-md hover:bg-slate-700 focus:outline-none focus:ring focus:ring-slate-400 focus:ring-opacity-10;
+        @apply py-2 px-5 m-2 md:my-0 md:mx-1 grad-secondary font-semibold rounded-full shadow-md hover:bg-slate-700 focus:outline-none focus:ring focus:ring-slate-400 focus:ring-opacity-10;
     }
 
     .card {
         @apply py-5 px-5 mx-5 my-1.5 bg-white shadow-md rounded-xl w-11/12 lg:w-1/2;
+    }
+
+    .pulldown-darken {
+        @apply absolute top-0 right-0 w-screen h-screen bg-black transition-opacity
+            duration-300 ease-in-out overflow-hidden;
+    }
+    .pulldown-frame {
+        @apply absolute top-0 right-0 w-screen h-auto bg-white transition-transform
+            duration-300 ease-in-out overflow-hidden px-9 py-8;
     }
 }
