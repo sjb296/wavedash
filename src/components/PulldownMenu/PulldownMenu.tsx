@@ -29,12 +29,16 @@ function PulloutMenu(
           </button>
         </div>
         <hr className="mb-4" />
-        <div className="flex-col text-xl">
+        <div className="flex flex-col text-xl gap-3">
           <a href="#">
-            <ul className="flex items-center gap-2 mb-4"><FaHouse className="text-blue-400" />Home</ul>
+            <ul className="flex items-center gap-2"><FaHouse className="text-blue-400" />Home</ul>
           </a>
           <a href="#">
             <ul className="flex items-center gap-2"><FaGear className="text-blue-400" />Settings</ul>
+          </a>
+          <a className="text-sm text-blue-400" href="https://sambarker.xyz" target="_blank">
+            <ul className="text-sm"></ul>
+            <ul>Wavedash by Sam Barker. Check out my site!</ul>
           </a>
         </div>
       </div>
