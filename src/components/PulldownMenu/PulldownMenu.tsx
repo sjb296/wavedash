@@ -13,13 +13,13 @@ const PulloutMenu = (
     <>
       {/* Background-darkening effect */}
       <div onClick={toggleMenu} className={
-        "pulldown-darken "
+        "pulldown-darken z-10 "
         + (isOpen ? "opacity-50 visible" : "opacity-0 pointer-events-none")
       }></div>
       {/* Pulldown frame */}
       <div
         className={
-          "pulldown-frame "
+          "pulldown-frame z-10 "
           + (isOpen ? "translate-y-0 shadow-lg" : "-translate-y-full")
         }>
         <div className="flex justify-between mb-6">
