@@ -37,6 +37,10 @@
     .card {
         @apply py-5 px-5 mx-5 my-1.5 bg-white shadow-md rounded-xl w-11/12 lg:w-1/2;
     }
+    /* Card with only the layout properties - no background or shadow */
+    .card-invis {
+        @apply py-5 px-5 mx-5 my-1.5 w-11/12 lg:w-1/2;
+    }
     /* Two cards alongside each other in a transparent div */
     .double-card {
         @apply flex flex-row w-11/12 lg:w-1/2 gap-3;

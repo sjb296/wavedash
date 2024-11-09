@@ -1,14 +1,14 @@
 import { MouseEventHandler } from "react"
 import { FaGear, FaHouse } from "react-icons/fa6"
 
-function PulloutMenu(
+const PulloutMenu = (
   {
     isOpen, toggleMenu
   }: {
     isOpen: boolean,
     toggleMenu: MouseEventHandler
   }
-) {
+) => {
   return (
     <>
       {/* Background-darkening effect */}

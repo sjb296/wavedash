@@ -1,34 +1,33 @@
 import './App.css'
+import Carousel from './components/Carousel/Carousel'
+import HamburgerSvg from './components/HamburgerSvg/HamburgerSvg'
 import Nav from './components/Nav/Nav'
-import { FaWind, FaTemperatureHalf } from 'react-icons/fa6'
+// import { FaWind, FaTemperatureHalf } from 'react-icons/fa6'
 
-function App() {
+const App = () => {
   return (
     <>
       <Nav />
-      {/* Briefing text detailing what days are good for swimming or sailing */}
+      {/* At-a-glance day 5 star ratings for sailing and swimming */}
       <div className="card">
         <h1 className="text-xl font-bold">
           Good {new Date().getHours() < 12 ? 'morning' : 'afternoon'}.
         </h1>
-        <p className="text-sm text-slate-400">Here's what the weather's looking like...</p>
+        <p className="text-sm text-slate-400">Tap on a day to see more info below.</p>
+
+        {/* Sample carousels */}
         <h2 className="text-lg font-bold">Sailing</h2>
+        <Carousel items={[<HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />]} />
+
         <h2 className="text-lg font-bold">Swimming</h2>
-        <ul className="list-disc list-inside">
-          <li>
-            <span className="text-blue-500">Sunday afternoon</span> will be <span className="font-bold">good</span> for <span className="text-blue-500">sailing</span>
-          </li>
-          <li>
-            <span className="text-blue-500">Monday morning</span> will be <span className="font-bold">alright</span> for <span className="text-blue-500">swimming</span>
-          </li>
-        </ul>
+        <Carousel items={[<HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />]} />
       </div>
 
       {/* Double small previews (temp icons here) */}
-      <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
+      {/* <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
         <div><FaTemperatureHalf className="h-24 text-blue-500" /></div>
         <div><FaWind className="h-24 text-blue-500" /></div>
-      </div>
+      </div> */}
 
       {/* Main weather forecast section */}
       <div className="card">

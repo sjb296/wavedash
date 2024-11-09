@@ -2,7 +2,7 @@ import { useState } from "react";
 import PulldownMenu from "../PulldownMenu/PulldownMenu";
 import HamburgerSvg from "../HamburgerSvg/HamburgerSvg";
 
-function Nav() {
+const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
