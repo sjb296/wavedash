@@ -4,8 +4,9 @@
 
 :root {
     --background-color: #f6fcff;
+    --main-text-color: rgb(19, 34, 34);
     background-color: var(--background-color);
-    color: rgb(19, 34, 34);
+    color: var(--main-text-color);
 }
 
 #root {
@@ -56,5 +57,11 @@
     .pulldown-frame {
         @apply absolute top-0 right-0 w-screen h-auto bg-white transition-transform
             duration-300 ease-in-out overflow-hidden px-9 py-8;
+    }
+
+    /* Carousel element - these must all be the same width so that all the
+    carousels can scroll at once and remain perfectly vertically aligned. */
+    .carousel-element {
+        @apply w-14;
     }
 }

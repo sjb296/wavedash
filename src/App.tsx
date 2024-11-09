@@ -1,7 +1,7 @@
 import './App.css'
 import Carousel from './components/Carousel/Carousel'
-import HamburgerSvg from './components/HamburgerSvg/HamburgerSvg'
 import Nav from './components/Nav/Nav'
+import StarRating from './components/StarRating/StarRating'
 // import { FaWind, FaTemperatureHalf } from 'react-icons/fa6'
 
 const App = () => {
@@ -17,10 +17,10 @@ const App = () => {
 
         {/* Sample carousels */}
         <h2 className="text-lg font-bold">Sailing</h2>
-        <Carousel items={[<HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />]} />
+        <Carousel items={[<StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]} />
 
         <h2 className="text-lg font-bold">Swimming</h2>
-        <Carousel items={[<HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />, <HamburgerSvg />]} />
+        <Carousel items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]} />
       </div>
 
       {/* Double small previews (temp icons here) */}

@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         "root-bg": "var(--background-color)",
+        "main-text-color": "var(--main-text-color)",
       },
     },
   },
