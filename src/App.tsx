@@ -1,10 +1,27 @@
+import { useState } from 'react'
 import './App.css'
 import Carousel from './components/Carousel/Carousel'
 import Nav from './components/Nav/Nav'
 import StarRating from './components/StarRating/StarRating'
-// import { FaWind, FaTemperatureHalf } from 'react-icons/fa6'
+
+type Location = {
+  latitude: number
+  longitude: number
+} | null
 
 const App = () => {
+  const [location, setLocation] = useState<Location>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Get weather info for the coming week here in App.
+  const getLocation = () => {
+    console.log("Get location")
+    navigator.geolocation.getCurrentPosition(
+      position => { setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }) },
+      err => { setError(err.message) }
+    )
+  }
+
   return (
     <>
       <Nav />
@@ -30,25 +47,15 @@ const App = () => {
       </div> */}
 
       {/* Main weather forecast section */}
-      <div className="card">
-        <img className="w-full" src="/images/sample-weather-design.png" alt="A sample weather forecast image." />
+      <div className="card text-center">
+        <button className="btn-secondary" onClick={getLocation}>Get location</button>
+        {location && (
+          <p>
+            Lat: {location.latitude}, Lon: {location.longitude}
+          </p>
+        )}
+        {error && <p className="text-red-500">Error: {error}</p>}
       </div>
-
-      {/* Sample tide graph SVG
-      <svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style={{ stopColor: "lightblue", stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: "white", stopOpacity: 0 }} />
-          </linearGradient>
-        </defs>
-
-        <path d="M 0 200 Q 125 100 250 200 T 500 200 L 500 300 L 0 300 Z" fill="url(#blue-gradient)" />
-
-        <path d="M 0 200 Q 125 100 250 200 T 500 200" stroke="cornflowerblue" stroke-width="3" fill="none" />
-
-      </svg>
-      */}
     </>
   )
 }

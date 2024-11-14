@@ -62,6 +62,6 @@
     /* Carousel element - these must all be the same width so that all the
     carousels can scroll at once and remain perfectly vertically aligned. */
     .carousel-element {
-        @apply w-14;
+        @apply w-2/12;
     }
 }

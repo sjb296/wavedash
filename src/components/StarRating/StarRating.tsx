@@ -6,10 +6,10 @@ const StarRating = ({ stars }: { stars: number }) => {
   const numEmptyStars = 5 - numFullStars - numHalfStars;
 
   return (
-    <div className="carousel-element text-center">
+    <div className="text-center py-1">
       {/* {numFullStars},{numHalfStars},{numEmptyStars} */}
-      <p className="text-sm text-bold text-main-text-color">Day</p>
-      <div className="flex justify-center flex-wrap px-2 text-xl text-yellow-500">
+      <p className="text-sm lg:text-lg font-medium text-main-text-color">Day</p>
+      <div className="flex justify-center flex-wrap px-2 text-md lg:text-2xl text-yellow-500">
         {[...Array(numFullStars)].map((_, i) => (
           <div key={i} className="-mx-1"><FaStar /></div>
         ))}
