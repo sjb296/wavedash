@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 const Carousel = ({ items, className }: { items: Array<ReactNode>, className?: string }) => {
 
@@ -14,7 +14,7 @@ const Carousel = ({ items, className }: { items: Array<ReactNode>, className?: s
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex-none carousel-element"
+            className="flex-none carousel-element h-auto overflow-hidden"
           >
             {item}
           </div>

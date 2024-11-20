@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
-import { fetchWeatherApi } from 'openmeteo'
-import './App.css'
-import Carousel from './components/Carousel/Carousel'
-import Nav from './components/Nav/Nav'
-import StarRating from './components/StarRating/StarRating'
+import { useCallback, useEffect, useState } from "react"
+import { fetchWeatherApi } from "openmeteo"
+import "./App.css"
+import Carousel from "./components/Carousel/Carousel"
+import Nav from "./components/Nav/Nav"
+import StarRating from "./components/StarRating/StarRating"
+import bearingToDirection from "./utils/bearingToDirection"
+import BearingArrow from "./components/BearingArrow/BearingArrow"
 
 type Location = {
   latitude: number
@@ -13,8 +15,13 @@ type Location = {
 type Forecast = {
   daily: {
     time: Date[]
+    weatherCode: Float32Array<ArrayBufferLike>
     temperature2mMax: Float32Array<ArrayBufferLike>
     temperature2mMin: Float32Array<ArrayBufferLike>
+    precipitationProbabilityMax: Float32Array<ArrayBufferLike>
+    windSpeed10mMax: Float32Array<ArrayBufferLike>
+    windGusts10mMax: Float32Array<ArrayBufferLike>
+    windDirection10mDominant: Float32Array<ArrayBufferLike>
   }
 } | null
 
@@ -44,12 +51,12 @@ const App = () => {
       const params = {
         "latitude": location.latitude,
         "longitude": location.longitude,
-        "daily": ["temperature_2m_max", "temperature_2m_min"],
+        "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
         "wind_speed_unit": "kn",
         "timezone": "auto"
       }
-      const url = 'https://api.open-meteo.com/v1/forecast'
-      // const url = 'https://api.open-meteo.com/v1/forecasnldkalksdhdalsst' // malformed
+      const url = "https://api.open-meteo.com/v1/forecast"
+      // const url = "https://api.open-meteo.com/v1/forecasnldkalksdhdalsst" // malformed
       const responses = await fetchWeatherApi(url, params)
 
       // Helper function to form time ranges
@@ -74,8 +81,13 @@ const App = () => {
           time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
             (t) => new Date((t + utcOffsetSeconds) * 1000)
           ),
-          temperature2mMax: daily.variables(0)!.valuesArray()!,
-          temperature2mMin: daily.variables(1)!.valuesArray()!,
+          weatherCode: daily.variables(0)!.valuesArray()!,
+          temperature2mMax: daily.variables(1)!.valuesArray()!,
+          temperature2mMin: daily.variables(2)!.valuesArray()!,
+          precipitationProbabilityMax: daily.variables(3)!.valuesArray()!,
+          windSpeed10mMax: daily.variables(4)!.valuesArray()!,
+          windGusts10mMax: daily.variables(5)!.valuesArray()!,
+          windDirection10mDominant: daily.variables(6)!.valuesArray()!,
         },
       };
 
@@ -83,8 +95,13 @@ const App = () => {
       for (let i = 0; i < weatherData.daily.time.length; i++) {
         console.log(
           weatherData.daily.time[i].toISOString(),
+          weatherData.daily.weatherCode[i],
           weatherData.daily.temperature2mMax[i],
-          weatherData.daily.temperature2mMin[i]
+          weatherData.daily.temperature2mMin[i],
+          weatherData.daily.precipitationProbabilityMax[i],
+          weatherData.daily.windSpeed10mMax[i],
+          weatherData.daily.windGusts10mMax[i],
+          weatherData.daily.windDirection10mDominant[i]
         );
       }
 
@@ -108,7 +125,7 @@ const App = () => {
       {/* At-a-glance day 5 star ratings for sailing and swimming */}
       <div className="card">
         <h1 className="text-xl font-bold">
-          Good {new Date().getHours() < 12 ? 'morning' : 'afternoon'}.
+          Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
         </h1>
         <p className="text-sm text-slate-400">Tap on a day to see more info below.</p>
 
@@ -131,12 +148,34 @@ const App = () => {
         <button className="btn-secondary" onClick={getLocation}>Get location</button>
 
         {/* Carousel weather report */}
-        <Carousel className="" items={
-          forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+        {/* Max temperature */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1) + "°"}</div>) : [<code>Error: forecast undefined!</code>]
         } />
 
+        {/* Min temperature */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1) + "°"}</div>) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        {/* Wind direction arrow */}
+        <Carousel className="-mb-4" items={
+          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <BearingArrow bearing={item} size={30} />) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        {/* Wind direction string */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <div>{bearingToDirection(item)}</div>) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        {/* Wind max */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.windSpeed10mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        {/* Wind gusts */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.windGusts10mMax).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
         } />
 
         {/* Raw data (testing) */}
@@ -156,7 +195,7 @@ const App = () => {
           )
         }
 
-        {
+        {/* {
           forecast
           && (
             <p className="overflow-scroll">
@@ -170,7 +209,7 @@ const App = () => {
               <div className="h-6 bg-gray-300 rounded w-full"></div>
             </div>
           )
-        }
+        } */}
         {error && <p className="text-red-500">Error: {error}</p>}
       </div>
     </>
