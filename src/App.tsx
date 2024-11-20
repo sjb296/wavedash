@@ -130,6 +130,16 @@ const App = () => {
       <div className="card text-center">
         <button className="btn-secondary" onClick={getLocation}>Get location</button>
 
+        {/* Carousel weather report */}
+        <Carousel className="" items={
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+        } />
+
+        {/* Raw data (testing) */}
         {
           location
           && (
