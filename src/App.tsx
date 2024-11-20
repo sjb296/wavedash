@@ -15,13 +15,13 @@ type Location = {
 type Forecast = {
   daily: {
     time: Date[]
-    weatherCode: Float32Array<ArrayBufferLike>
-    temperature2mMax: Float32Array<ArrayBufferLike>
-    temperature2mMin: Float32Array<ArrayBufferLike>
-    precipitationProbabilityMax: Float32Array<ArrayBufferLike>
-    windSpeed10mMax: Float32Array<ArrayBufferLike>
-    windGusts10mMax: Float32Array<ArrayBufferLike>
-    windDirection10mDominant: Float32Array<ArrayBufferLike>
+    weatherCode: Float32Array
+    temperature2mMax: Float32Array
+    temperature2mMin: Float32Array
+    precipitationProbabilityMax: Float32Array
+    windSpeed10mMax: Float32Array
+    windGusts10mMax: Float32Array
+    windDirection10mDominant: Float32Array
   }
 } | null
 
