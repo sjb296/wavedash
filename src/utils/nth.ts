@@ -6,7 +6,7 @@
  * @returns A string representing the ordinal of the number
  */
 const nth = (d: number) => {
-    if (d > 3 && d < 21) return 'th'
+    if (d > 3 && d < 21) return d + 'th'
     switch (d % 10) {
         case 1: return d + "st"
         case 2: return d + "nd"
