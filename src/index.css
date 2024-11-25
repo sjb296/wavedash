@@ -65,3 +65,8 @@
         @apply w-2/12;
     }
 }
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

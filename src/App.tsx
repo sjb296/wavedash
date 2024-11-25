@@ -9,6 +9,7 @@ import BearingArrow from "./components/BearingArrow/BearingArrow"
 import precipitationToIcon from "./utils/precipitationToIcon"
 import nth from "./utils/nth"
 import day from "./utils/day"
+import month from "./utils/month"
 
 type Location = {
   latitude: number
@@ -138,13 +139,13 @@ const App = () => {
         <h1 className="text-xl font-bold">
           Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
         </h1>
-        <p className="text-sm text-slate-400">Tap on a day to see more info below.</p>
+        <p className="text-sm text-slate-400">Here's an overview of the week's weather.</p>
 
         {/* Sample carousels */}
-        <h2 className="text-lg font-bold">Sailing</h2>
+        <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         <Carousel items={[<StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]} />
 
-        <h2 className="text-lg font-bold">Swimming</h2>
+        <h2 className="text-lg font-medium -mb-2">Swimming</h2>
         <Carousel items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]} />
       </div>
 
@@ -158,10 +159,25 @@ const App = () => {
       <div className="card text-center">
         {/* <button className="btn-secondary" onClick={getLocation}>Get location</button> */}
 
+        <h1 className="text-xl font-bold text-start">
+          Daily forecast
+        </h1>
+
+        <hr className="mt-2" />
+
+        {/* 
+          *
+          * DATES 
+          *
+          */}
+        {/* Months */}
+        <Carousel className="text-lg -mb-3" items={
+          forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div className="text-sm text-slate-400">{month(item.getMonth())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
+
         {/* Days of the week */}
-        <p className="text-start text-sm text-slate-400 font-bold">Temperature</p>
-        <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div>{day(item.getDay())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        <Carousel className="text-lg -mb-3" items={
+          forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div className="font-medium">{day(item.getDay())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
         {/* Dates */}
@@ -169,7 +185,11 @@ const App = () => {
           forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div>{nth(item.getDate())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
-        {/* Carousel weather report */}
+        {/* 
+          *
+          * TEMPERATURES 
+          *
+          */}
         <p className="text-start text-sm text-slate-400 font-bold">Temperature</p>
         {/* Max temperature */}
         <Carousel items={
@@ -181,6 +201,11 @@ const App = () => {
           forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1) + "°"}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
+        {/* 
+          *
+          * RAIN 
+          *
+          */}
         <p className="text-start text-sm text-slate-400 font-bold">Precipitation</p>
         {/* Sun/cloud/rain icon */}
         <Carousel items={
@@ -192,6 +217,11 @@ const App = () => {
           forecast != undefined ? Array.from(forecast?.daily.precipitationProbabilityMean).map(item => <div className="text-sm">{item.toFixed(1)}%</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
+        {/* 
+          *
+          * WIND 
+          *
+          */}
         <p className="text-start text-sm text-slate-400 font-bold">Wind</p>
         {/* Wind direction arrow */}
         <Carousel className="-mb-4" items={
