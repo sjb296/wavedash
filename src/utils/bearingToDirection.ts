@@ -23,7 +23,7 @@ const bearingToDirection = (bearing: number): string => {
         "NW",
         "NNW",
     ]
-    return directions[Math.round((bearing + 11.25) / 22.5) % 16]
+    return directions[Math.round((bearing + 180 + 11.25) / 22.5) % 16]
 }
 
 export default bearingToDirection

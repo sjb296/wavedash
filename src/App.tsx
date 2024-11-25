@@ -246,7 +246,7 @@ const App = () => {
           * TEMPERATURES 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Temperature</p>
+        <p className="text-start text-sm text-slate-400 font-bold">Temperature (°C)</p>
         {/* Max temperature */}
         <Carousel
           ref={(el) => registerCarousel(el)}
@@ -270,7 +270,7 @@ const App = () => {
           * RAIN 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Precipitation</p>
+        <p className="text-start text-sm text-slate-400 font-bold">Rain</p>
         {/* Sun/cloud/rain icon */}
         <Carousel
           ref={(el) => registerCarousel(el)}
@@ -294,7 +294,7 @@ const App = () => {
           * WIND 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Wind</p>
+        <p className="text-start text-sm text-slate-400 font-bold">Wind (kt)</p>
         {/* Wind direction arrow */}
         <Carousel
           ref={(el) => registerCarousel(el)}
