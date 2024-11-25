@@ -6,6 +6,9 @@ import Nav from "./components/Nav/Nav"
 import StarRating from "./components/StarRating/StarRating"
 import bearingToDirection from "./utils/bearingToDirection"
 import BearingArrow from "./components/BearingArrow/BearingArrow"
+import precipitationToIcon from "./utils/precipitationToIcon"
+import nth from "./utils/nth"
+import day from "./utils/day"
 
 type Location = {
   latitude: number
@@ -18,7 +21,7 @@ type Forecast = {
     weatherCode: Float32Array
     temperature2mMax: Float32Array
     temperature2mMin: Float32Array
-    precipitationProbabilityMax: Float32Array
+    precipitationProbabilityMean: Float32Array
     windSpeed10mMax: Float32Array
     windGusts10mMax: Float32Array
     windDirection10mDominant: Float32Array
@@ -30,7 +33,9 @@ const App = () => {
   const [error, setError] = useState<string | null>(null);
   const [forecast, setForecast] = useState<Forecast>(null);
 
-  // Get weather info for the coming week here in App.
+  /**
+   * Gets the user's location using the browser's geolocation API.
+   */
   const getLocation = () => {
     console.log("Get location")
     navigator.geolocation.getCurrentPosition(
@@ -51,7 +56,7 @@ const App = () => {
       const params = {
         "latitude": location.latitude,
         "longitude": location.longitude,
-        "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
+        "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_mean", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
         "wind_speed_unit": "kn",
         "timezone": "auto"
       }
@@ -84,7 +89,7 @@ const App = () => {
           weatherCode: daily.variables(0)!.valuesArray()!,
           temperature2mMax: daily.variables(1)!.valuesArray()!,
           temperature2mMin: daily.variables(2)!.valuesArray()!,
-          precipitationProbabilityMax: daily.variables(3)!.valuesArray()!,
+          precipitationProbabilityMean: daily.variables(3)!.valuesArray()!,
           windSpeed10mMax: daily.variables(4)!.valuesArray()!,
           windGusts10mMax: daily.variables(5)!.valuesArray()!,
           windDirection10mDominant: daily.variables(6)!.valuesArray()!,
@@ -98,7 +103,7 @@ const App = () => {
           weatherData.daily.weatherCode[i],
           weatherData.daily.temperature2mMax[i],
           weatherData.daily.temperature2mMin[i],
-          weatherData.daily.precipitationProbabilityMax[i],
+          weatherData.daily.precipitationProbabilityMean[i],
           weatherData.daily.windSpeed10mMax[i],
           weatherData.daily.windGusts10mMax[i],
           weatherData.daily.windDirection10mDominant[i]
@@ -113,11 +118,17 @@ const App = () => {
     }
   }, [location])
 
+  // Get forecast when location changes
   useEffect(() => {
     if (location) {
       getForecast()
     }
   }, [location, getForecast])
+
+  // Get forecast on first load
+  useEffect(() => {
+    getLocation()
+  }, [])
 
   return (
     <>
@@ -145,55 +156,62 @@ const App = () => {
 
       {/* Main weather forecast section */}
       <div className="card text-center">
-        <button className="btn-secondary" onClick={getLocation}>Get location</button>
+        {/* <button className="btn-secondary" onClick={getLocation}>Get location</button> */}
+
+        {/* Days of the week */}
+        <p className="text-start text-sm text-slate-400 font-bold">Temperature</p>
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div>{day(item.getDay())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
+
+        {/* Dates */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div>{nth(item.getDate())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
 
         {/* Carousel weather report */}
+        <p className="text-start text-sm text-slate-400 font-bold">Temperature</p>
         {/* Max temperature */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1) + "°"}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1) + "°"}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
         {/* Min temperature */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1) + "°"}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1) + "°"}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
+        <p className="text-start text-sm text-slate-400 font-bold">Precipitation</p>
+        {/* Sun/cloud/rain icon */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.precipitationProbabilityMean).map(item => <div className="text-2xl">{precipitationToIcon(item)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
+
+        {/* Rain probability */}
+        <Carousel items={
+          forecast != undefined ? Array.from(forecast?.daily.precipitationProbabilityMean).map(item => <div className="text-sm">{item.toFixed(1)}%</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
+
+        <p className="text-start text-sm text-slate-400 font-bold">Wind</p>
         {/* Wind direction arrow */}
         <Carousel className="-mb-4" items={
-          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <BearingArrow bearing={item} size={30} />) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <BearingArrow bearing={item} size={30} />) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
         {/* Wind direction string */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <div>{bearingToDirection(item)}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <div>{bearingToDirection(item)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
         {/* Wind max */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.windSpeed10mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.windSpeed10mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
 
         {/* Wind gusts */}
         <Carousel items={
-          forecast != undefined ? Array.from(forecast?.daily.windGusts10mMax).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code>Error: forecast undefined!</code>]
+          forecast != undefined ? Array.from(forecast?.daily.windGusts10mMax).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
         } />
-
-        {/* Raw data (testing) */}
-        {
-          location
-          && (
-            <p>
-              Lat: {location.latitude}, Lon: {location.longitude}
-            </p>
-          )
-          || (
-            <div className="animate-pulse my-2">
-              <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-              <div className="h-6 bg-gray-300 rounded w-1/2 mb-2"></div>
-              <div className="h-6 bg-gray-300 rounded w-full"></div>
-            </div>
-          )
-        }
 
         {/* {
           forecast
