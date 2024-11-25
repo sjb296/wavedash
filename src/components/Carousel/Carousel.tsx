@@ -31,8 +31,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   ({ items, className, onScroll }, ref) => {
     return (
       <div
-
-        className={"relative flex items-center card-invis p-0 mx-0 scrollbar-hide w-full " + (className ? className : "")}>
+        className={"relative flex items-center card-invis p-0 mx-0 scrollbar-hide w-full scroll-auto " + (className ? className : "")}>
         {/* Left gradient overlay */}
         <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-white to-transparent pointer-events-none " />
 

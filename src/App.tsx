@@ -57,7 +57,6 @@ const App = () => {
   }, [])
 
   const handleCarouselScroll = (scrollingElement: HTMLDivElement) => {
-    console.log("They see me scrollin, they hatin")
     const scrollLeft = scrollingElement.scrollLeft
 
     // Synchronize scroll positions
@@ -93,7 +92,8 @@ const App = () => {
         "longitude": location.longitude,
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_mean", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
         "wind_speed_unit": "kn",
-        "timezone": "auto"
+        "timezone": "auto",
+        "forecast_days": 14,
       }
       const url = "https://api.open-meteo.com/v1/forecast"
       // const url = "https://api.open-meteo.com/v1/forecasnldkalksdhdalsst" // malformed
@@ -180,14 +180,14 @@ const App = () => {
         <Carousel
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={[<StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
+          items={[<StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
         />
 
         <h2 className="text-lg font-medium -mb-2">Swimming</h2>
         <Carousel
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
+          items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
         />
       </div>
 
