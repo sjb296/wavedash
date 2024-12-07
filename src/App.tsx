@@ -13,6 +13,7 @@ import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen"
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
+import SkeletonCarousel from "./components/SkeletonCarousel/SkeletonCarousel"
 
 type Location = {
   latitude: number
@@ -170,11 +171,11 @@ const App = () => {
           : <ErrorScreen className="opacity-0 pointer-events-none" />
       }
       {/* hide content until the data comes through or an error occurs */}
-      {
+      {/* {
         forecast
           ? <LoadingScreen className="opacity-0 pointer-events-none" />
           : <LoadingScreen className="opacity-100" />
-      }
+      } */}
 
       <Nav />
 
@@ -198,56 +199,66 @@ const App = () => {
         <p className="text-sm text-slate-400">Here's an overview of the week's weather.</p>
 
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined
-              // Map over the whole forecast, using an array of [0..forecastDays-1]
-              // to index into the forecast
-              ? indicesArray(forecastDays).map(
-                idx => <StarRating
-                  stars={
-                    calcStarRating(
-                      true,
-                      forecast?.daily.windSpeed10mMax[idx],
-                      forecast?.daily.precipitationProbabilityMean[idx],
-                      forecast?.daily.temperature2mMax[idx],
-                      forecast?.daily.temperature2mMin[idx]
-                    )
-                  }
-                  dayOfWeek={forecast?.daily.time[idx].getDay()}
-                />
-              )
-              : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}
+        { // Render a skeleton if the forecast is not available
+          forecast != undefined
+            ? <Carousel
+              ref={(el) => registerCarousel(el)}
+              onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+              items={
+                forecast != undefined
+                  // Map over the whole forecast, using an array of [0..forecastDays-1]
+                  // to index into the forecast
+                  ? indicesArray(forecastDays).map(
+                    idx => <StarRating
+                      stars={
+                        calcStarRating(
+                          true,
+                          forecast?.daily.windSpeed10mMax[idx],
+                          forecast?.daily.precipitationProbabilityMean[idx],
+                          forecast?.daily.temperature2mMax[idx],
+                          forecast?.daily.temperature2mMin[idx]
+                        )
+                      }
+                      dayOfWeek={forecast?.daily.time[idx].getDay()}
+                    />
+                  )
+                  : [<code className="hidden">Error: forecast undefined!</code>]
+              }
+            />
+            : <SkeletonCarousel rows={3} cols={forecastDays} />
+        }
+
 
         <h2 className="text-lg font-medium -mb-2">Swimming</h2>
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined
-              // Map over the whole forecast, using an array of [0..forecastDays-1]
-              // to index into the forecast
-              ? indicesArray(forecastDays).map(
-                idx => <StarRating
-                  stars={
-                    calcStarRating(
-                      false,
-                      forecast?.daily.windSpeed10mMax[idx],
-                      forecast?.daily.precipitationProbabilityMean[idx],
-                      forecast?.daily.temperature2mMax[idx],
-                      forecast?.daily.temperature2mMin[idx]
-                    )
-                  }
-                  dayOfWeek={forecast?.daily.time[idx].getDay()}
-                />
-              )
-              : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        { // Render a skeleton if the forecast is not available
+          forecast != undefined
+            ? <Carousel
+              ref={(el) => registerCarousel(el)}
+              onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+              items={
+                forecast != undefined
+                  // Map over the whole forecast, using an array of [0..forecastDays-1]
+                  // to index into the forecast
+                  ? indicesArray(forecastDays).map(
+                    idx => <StarRating
+                      stars={
+                        calcStarRating(
+                          false,
+                          forecast?.daily.windSpeed10mMax[idx],
+                          forecast?.daily.precipitationProbabilityMean[idx],
+                          forecast?.daily.temperature2mMax[idx],
+                          forecast?.daily.temperature2mMin[idx]
+                        )
+                      }
+                      dayOfWeek={forecast?.daily.time[idx].getDay()}
+                    />
+                  )
+                  : [<code className="hidden">Error: forecast undefined!</code>]
+              }
+            />
+            : <SkeletonCarousel rows={3} cols={forecastDays} />
+        }
 
       </div>
 
@@ -272,13 +283,15 @@ const App = () => {
           * DATES 
           *
           */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.time).map(item => <DateGroup date={item} />) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        {
+          forecast != undefined ? <Carousel
+            ref={(el) => registerCarousel(el)}
+            onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+            items={
+              forecast != undefined ? Array.from(forecast?.daily.time).map(item => <DateGroup date={item} />) : [<code className="hidden">Error: forecast undefined!</code>]
+            }
+          /> : <SkeletonCarousel rows={3} cols={forecastDays} />
+        }
 
         {/* 
           *
@@ -287,19 +300,23 @@ const App = () => {
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Temperature (°C)</p>
 
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined
-              // Zip together min and max temperatures
-              ? zip(
-                Array.from(forecast?.daily.temperature2mMax),
-                Array.from(forecast?.daily.temperature2mMin)
-              ).map(([max, min]) => <TempGroup max={max} min={min} />)
-              : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        {
+          forecast != undefined
+            ? <Carousel
+              ref={(el) => registerCarousel(el)}
+              onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+              items={
+                forecast != undefined
+                  // Zip together min and max temperatures
+                  ? zip(
+                    Array.from(forecast?.daily.temperature2mMax),
+                    Array.from(forecast?.daily.temperature2mMin)
+                  ).map(([max, min]) => <TempGroup max={max} min={min} />)
+                  : [<code className="hidden">Error: forecast undefined!</code>]
+              }
+            />
+            : <SkeletonCarousel rows={2} cols={forecastDays} />
+        }
 
         {/* 
           *
@@ -308,13 +325,17 @@ const App = () => {
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Rain</p>
 
-        <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+        {
           forecast != undefined
-            ? Array.from(forecast?.daily.precipitationProbabilityMean).map(
-              item => <RainGroup precipitationProbabilityMean={item} />
-            )
-            : [<code className="hidden">Error: forecast undefined!</code>]
-        } />
+            ? <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+              forecast != undefined
+                ? Array.from(forecast?.daily.precipitationProbabilityMean).map(
+                  item => <RainGroup precipitationProbabilityMean={item} />
+                )
+                : [<code className="hidden">Error: forecast undefined!</code>]
+            } />
+            : <SkeletonCarousel rows={2} cols={forecastDays} />
+        }
 
         {/* 
           *
@@ -323,17 +344,21 @@ const App = () => {
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Wind (kt)</p>
 
-        <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+        {
           forecast != undefined
-            ? indicesArray(forecastDays).map(
-              idx => <WindGroup
-                bearing={forecast?.daily.windDirection10mDominant[idx]}
-                maxSpeed={forecast?.daily.windSpeed10mMax[idx]}
-                gusts={forecast?.daily.windGusts10mMax[idx]}
-              />
-            )
-            : [<code className="hidden">Error: forecast undefined!</code>]
-        } />
+            ? <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+              forecast != undefined
+                ? indicesArray(forecastDays).map(
+                  idx => <WindGroup
+                    bearing={forecast?.daily.windDirection10mDominant[idx]}
+                    maxSpeed={forecast?.daily.windSpeed10mMax[idx]}
+                    gusts={forecast?.daily.windGusts10mMax[idx]}
+                  />
+                )
+                : [<code className="hidden">Error: forecast undefined!</code>]
+            } />
+            : <SkeletonCarousel rows={4} cols={forecastDays} />
+        }
 
         {/* {
           forecast
@@ -350,7 +375,7 @@ const App = () => {
             </div>
           )
         } */}
-        {error && <p className="text-red-500">Error: {error}</p>}
+        {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}
       </div>
     </>
   )
