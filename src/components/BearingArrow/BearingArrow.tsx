@@ -25,7 +25,7 @@ const BearingArrow = (
       height={boxSize}
       viewBox={`-${halfSize} -${halfSize} ${arrowSize} ${arrowSize}`} // Origin is within centre of element
       xmlns="http://www.w3.org/2000/svg"
-      className={"mx-auto my-0 overflow-hidden block"}
+      className={"mx-auto my-0 overflow-hidden block bearing-arrow"}
       style={{
         transform: `rotate(${bearing}deg)`,
         transformOrigin: "center", // Point of rotation must be in element centre

@@ -162,6 +162,14 @@ const App = () => {
   return (
     <>
       <Nav />
+      {/* "This app is designed for phones" message */}
+      <div className="card hidden md:block">
+        <p className="text-md text-pink-700">
+          <b>Notice:</b> This app is designed for mobile devices, and will function on larger screens,
+          but look best on smaller ones. Try it on your phone!
+        </p>
+      </div>
+
       {/* 
         *
         * RATINGS 

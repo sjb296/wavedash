@@ -70,3 +70,8 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.bearing-arrow {
+    max-width: 30px;
+    max-height: 30px;
+}
