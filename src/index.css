@@ -75,3 +75,7 @@
     max-width: 30px;
     max-height: 30px;
 }
+
+.bg-root {
+    background-color: var(--background-color);
+}

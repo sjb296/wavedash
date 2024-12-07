@@ -11,6 +11,7 @@ import WindGroup from "./components/Carousel/WindGroup"
 import zip from "./utils/zip"
 import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen"
 
 type Location = {
   latitude: number
@@ -161,7 +162,15 @@ const App = () => {
 
   return (
     <>
+      {/* hide content until the data comes through or an error occurs */}
+      {
+        forecast || error
+          ? <></>
+          : <LoadingScreen />
+      }
+
       <Nav />
+
       {/* "This app is designed for phones" message */}
       <div className="card hidden md:block">
         <p className="text-md text-pink-700">
@@ -172,7 +181,7 @@ const App = () => {
 
       {/* 
         *
-        * RATINGS 
+        * RATINGS
         *
         */}
       <div className="card">

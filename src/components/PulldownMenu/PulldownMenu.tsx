@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react"
-import { FaGear, FaHouse } from "react-icons/fa6"
+// import { FaGear, FaHouse } from "react-icons/fa6"
 
 const PulloutMenu = (
   {
@@ -30,15 +30,15 @@ const PulloutMenu = (
         </div>
         <hr className="mb-4" />
         <div className="flex flex-col text-xl gap-3">
-          <a href="#">
+          {/* <a href="#">
             <ul className="flex items-center gap-2"><FaHouse className="text-blue-400" />Home</ul>
           </a>
           <a href="#">
             <ul className="flex items-center gap-2"><FaGear className="text-blue-400" />Settings</ul>
-          </a>
+          </a> */}
           <a className="text-sm text-blue-400" href="https://sambarker.xyz" target="_blank">
             <ul className="text-sm"></ul>
-            <ul>Wavedash by Sam Barker. Check out my site!</ul>
+            <ul>Wavedash by Sam Barker. Click here and check out my site!</ul>
           </a>
         </div>
       </div>
