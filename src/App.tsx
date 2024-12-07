@@ -12,6 +12,7 @@ import zip from "./utils/zip"
 import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen"
+import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
 
 type Location = {
   latitude: number
@@ -162,11 +163,17 @@ const App = () => {
 
   return (
     <>
+      {/* Error screen covering the whole screen */}
+      {
+        error
+          ? <ErrorScreen className="opacity-100" />
+          : <ErrorScreen className="opacity-0 pointer-events-none" />
+      }
       {/* hide content until the data comes through or an error occurs */}
       {
-        forecast || error
-          ? <></>
-          : <LoadingScreen />
+        forecast
+          ? <LoadingScreen className="opacity-0 pointer-events-none" />
+          : <LoadingScreen className="opacity-100" />
       }
 
       <Nav />

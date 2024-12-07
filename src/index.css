@@ -79,3 +79,22 @@
 .bg-root {
     background-color: var(--background-color);
 }
+
+.fadeout {
+    animation: fadeout 1.5s;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
