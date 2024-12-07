@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { fetchWeatherApi } from "openmeteo"
 import "./App.css"
-import zip from "./utils/zip"
 import Carousel from "./components/Carousel/Carousel"
 import Nav from "./components/Nav/Nav"
 import StarRating from "./components/StarRating/StarRating"
@@ -9,6 +8,9 @@ import DateGroup from "./components/Carousel/DateGroup"
 import TempGroup from "./components/Carousel/TempGroup"
 import RainGroup from "./components/Carousel/RainGroup"
 import WindGroup from "./components/Carousel/WindGroup"
+import zip from "./utils/zip"
+import indicesArray from "./utils/indicesArray"
+import calcStarRating from "./utils/calcStarRating"
 
 type Location = {
   latitude: number
@@ -36,6 +38,9 @@ const App = () => {
 
   // Refs
   const carouselsRef = useRef<HTMLDivElement[]>([])
+
+  // Values
+  const forecastDays = 14;
 
   /**
    * Register a carousel element to the carouselsRef reference. This will
@@ -96,7 +101,7 @@ const App = () => {
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_mean", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant"],
         "wind_speed_unit": "kn",
         "timezone": "auto",
-        "forecast_days": 14,
+        "forecast_days": forecastDays,
       }
       const url = "https://api.open-meteo.com/v1/forecast"
       // const url = "https://api.open-meteo.com/v1/forecasnldkalksdhdalsst" // malformed
@@ -134,20 +139,6 @@ const App = () => {
         },
       };
 
-      // `weatherData` now contains a simple structure with arrays for datetime and weather data
-      for (let i = 0; i < weatherData.daily.time.length; i++) {
-        console.log(
-          weatherData.daily.time[i].toISOString(),
-          weatherData.daily.weatherCode[i],
-          weatherData.daily.temperature2mMax[i],
-          weatherData.daily.temperature2mMin[i],
-          weatherData.daily.precipitationProbabilityMean[i],
-          weatherData.daily.windSpeed10mMax[i],
-          weatherData.daily.windGusts10mMax[i],
-          weatherData.daily.windDirection10mDominant[i]
-        );
-      }
-
       console.log("Weather data: ", weatherData)
       setForecast(weatherData)
     } else {
@@ -171,27 +162,16 @@ const App = () => {
   return (
     <>
       <Nav />
-      {/* At-a-glance day 5 star ratings for sailing and swimming */}
+      {/* 
+        *
+        * RATINGS 
+        *
+        */}
       <div className="card">
         <h1 className="text-xl font-bold">
           Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
         </h1>
         <p className="text-sm text-slate-400">Here's an overview of the week's weather.</p>
-
-        {/* Sample carousels
-        <h2 className="text-lg font-medium -mb-2">Sailing</h2>
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={[<StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
-        />
-
-        <h2 className="text-lg font-medium -mb-2">Swimming</h2>
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
-        /> */}
 
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         <Carousel
@@ -199,8 +179,21 @@ const App = () => {
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
           items={
             forecast != undefined
-              ? Array.from(forecast?.daily.time).map(
-                item => <StarRating stars={2.5} dayOfWeek={item.getDay()} />
+              // Map over the whole forecast, using an array of [0..forecastDays-1]
+              // to index into the forecast
+              ? indicesArray(forecastDays).map(
+                idx => <StarRating
+                  stars={
+                    calcStarRating(
+                      true,
+                      forecast?.daily.windSpeed10mMax[idx],
+                      forecast?.daily.precipitationProbabilityMean[idx],
+                      forecast?.daily.temperature2mMax[idx],
+                      forecast?.daily.temperature2mMin[idx]
+                    )
+                  }
+                  dayOfWeek={forecast?.daily.time[idx].getDay()}
+                />
               )
               : [<code className="hidden">Error: forecast undefined!</code>]
           }
@@ -212,8 +205,21 @@ const App = () => {
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
           items={
             forecast != undefined
-              ? Array.from(forecast?.daily.time).map(
-                item => <StarRating stars={2.5} dayOfWeek={item.getDay()} />
+              // Map over the whole forecast, using an array of [0..forecastDays-1]
+              // to index into the forecast
+              ? indicesArray(forecastDays).map(
+                idx => <StarRating
+                  stars={
+                    calcStarRating(
+                      false,
+                      forecast?.daily.windSpeed10mMax[idx],
+                      forecast?.daily.precipitationProbabilityMean[idx],
+                      forecast?.daily.temperature2mMax[idx],
+                      forecast?.daily.temperature2mMin[idx]
+                    )
+                  }
+                  dayOfWeek={forecast?.daily.time[idx].getDay()}
+                />
               )
               : [<code className="hidden">Error: forecast undefined!</code>]
           }
@@ -221,10 +227,10 @@ const App = () => {
 
       </div>
 
-      {/* Double small previews (temp icons here) */}
+      {/* Double small previews (temp icons here) - maybe put best days in here */}
       {/* <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
-        <div><FaTemperatureHalf className="h-24 text-blue-500" /></div>
-        <div><FaWind className="h-24 text-blue-500" /></div>
+        <div>aaa</div>
+        <div>aaa</div>
       </div> */}
 
       {/* Main weather forecast section */}
@@ -242,7 +248,6 @@ const App = () => {
           * DATES 
           *
           */}
-
         <Carousel
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
@@ -296,10 +301,11 @@ const App = () => {
 
         <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
           forecast != undefined
-            ? Array.from(forecast?.daily.windDirection10mDominant).map(
-              item => <WindGroup bearing={item}
-                maxSpeed={forecast?.daily.windSpeed10mMax[0]}
-                gusts={forecast?.daily.windGusts10mMax[0]}
+            ? indicesArray(forecastDays).map(
+              idx => <WindGroup
+                bearing={forecast?.daily.windDirection10mDominant[idx]}
+                maxSpeed={forecast?.daily.windSpeed10mMax[idx]}
+                gusts={forecast?.daily.windGusts10mMax[idx]}
               />
             )
             : [<code className="hidden">Error: forecast undefined!</code>]
