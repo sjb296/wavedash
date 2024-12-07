@@ -1,15 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { fetchWeatherApi } from "openmeteo"
 import "./App.css"
+import zip from "./utils/zip"
 import Carousel from "./components/Carousel/Carousel"
 import Nav from "./components/Nav/Nav"
 import StarRating from "./components/StarRating/StarRating"
-import bearingToDirection from "./utils/bearingToDirection"
-import BearingArrow from "./components/BearingArrow/BearingArrow"
-import precipitationToIcon from "./utils/precipitationToIcon"
-import nth from "./utils/nth"
-import day from "./utils/day"
-import month from "./utils/month"
+import DateGroup from "./components/Carousel/DateGroup"
+import TempGroup from "./components/Carousel/TempGroup"
+import RainGroup from "./components/Carousel/RainGroup"
+import WindGroup from "./components/Carousel/WindGroup"
 
 type Location = {
   latitude: number
@@ -56,6 +55,10 @@ const App = () => {
     }
   }, [])
 
+  /**
+   * Handles the scrolling of carousels. This is used to synchronize the scroll positions of carousels.
+   * @param scrollingElement The element that is being scrolled
+   */
   const handleCarouselScroll = (scrollingElement: HTMLDivElement) => {
     const scrollLeft = scrollingElement.scrollLeft
 
@@ -175,7 +178,7 @@ const App = () => {
         </h1>
         <p className="text-sm text-slate-400">Here's an overview of the week's weather.</p>
 
-        {/* Sample carousels */}
+        {/* Sample carousels
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         <Carousel
           ref={(el) => registerCarousel(el)}
@@ -188,7 +191,34 @@ const App = () => {
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
           items={[<StarRating stars={3.5} />, <StarRating stars={1} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={2.5} />, <StarRating stars={5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />, <StarRating stars={3.5} />,]}
+        /> */}
+
+        <h2 className="text-lg font-medium -mb-2">Sailing</h2>
+        <Carousel
+          ref={(el) => registerCarousel(el)}
+          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+          items={
+            forecast != undefined
+              ? Array.from(forecast?.daily.time).map(
+                item => <StarRating stars={2.5} dayOfWeek={item.getDay()} />
+              )
+              : [<code className="hidden">Error: forecast undefined!</code>]
+          }
         />
+
+        <h2 className="text-lg font-medium -mb-2">Swimming</h2>
+        <Carousel
+          ref={(el) => registerCarousel(el)}
+          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
+          items={
+            forecast != undefined
+              ? Array.from(forecast?.daily.time).map(
+                item => <StarRating stars={2.5} dayOfWeek={item.getDay()} />
+              )
+              : [<code className="hidden">Error: forecast undefined!</code>]
+          }
+        />
+
       </div>
 
       {/* Double small previews (temp icons here) */}
@@ -212,32 +242,12 @@ const App = () => {
           * DATES 
           *
           */}
-        {/* Months */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          className="text-lg -mb-3"
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div className="text-sm text-slate-400">{month(item.getMonth())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
 
-        {/* Days of the week */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          className="text-lg -mb-3"
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div className="font-medium">{day(item.getDay())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
-
-        {/* Dates */}
         <Carousel
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
           items={
-            forecast != undefined ? Array.from(forecast?.daily.time).map(item => <div>{nth(item.getDate())}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+            forecast != undefined ? Array.from(forecast?.daily.time).map(item => <DateGroup date={item} />) : [<code className="hidden">Error: forecast undefined!</code>]
           }
         />
 
@@ -247,21 +257,18 @@ const App = () => {
           *
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Temperature (°C)</p>
-        {/* Max temperature */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.temperature2mMax).map(item => <div>{item.toFixed(1) + "°"}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
 
-        {/* Min temperature */}
         <Carousel
           ref={(el) => registerCarousel(el)}
           onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
           items={
-            forecast != undefined ? Array.from(forecast?.daily.temperature2mMin).map(item => <div className="text-sm text-slate-400">{item.toFixed(1) + "°"}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
+            forecast != undefined
+              // Zip together min and max temperatures
+              ? zip(
+                Array.from(forecast?.daily.temperature2mMax),
+                Array.from(forecast?.daily.temperature2mMin)
+              ).map(([max, min]) => <TempGroup max={max} min={min} />)
+              : [<code className="hidden">Error: forecast undefined!</code>]
           }
         />
 
@@ -271,23 +278,14 @@ const App = () => {
           *
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Rain</p>
-        {/* Sun/cloud/rain icon */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.precipitationProbabilityMean).map(item => <div className="text-2xl">{precipitationToIcon(item)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
 
-        {/* Rain probability */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.precipitationProbabilityMean).map(item => <div className="text-sm">{item.toFixed(1)}%</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+          forecast != undefined
+            ? Array.from(forecast?.daily.precipitationProbabilityMean).map(
+              item => <RainGroup precipitationProbabilityMean={item} />
+            )
+            : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
 
         {/* 
           *
@@ -295,42 +293,17 @@ const App = () => {
           *
           */}
         <p className="text-start text-sm text-slate-400 font-bold">Wind (kt)</p>
-        {/* Wind direction arrow */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          className="-mb-4"
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <BearingArrow bearing={item} size={30} />) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
 
-        {/* Wind direction string */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.windDirection10mDominant).map(item => <div>{bearingToDirection(item)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
-
-        {/* Wind max */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.windSpeed10mMax).map(item => <div>{item.toFixed(1)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
-
-        {/* Wind gusts */}
-        <Carousel
-          ref={(el) => registerCarousel(el)}
-          onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)}
-          items={
-            forecast != undefined ? Array.from(forecast?.daily.windGusts10mMax).map(item => <div className="text-sm text-slate-400">{item.toFixed(1)}</div>) : [<code className="hidden">Error: forecast undefined!</code>]
-          }
-        />
+        <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
+          forecast != undefined
+            ? Array.from(forecast?.daily.windDirection10mDominant).map(
+              item => <WindGroup bearing={item}
+                maxSpeed={forecast?.daily.windSpeed10mMax[0]}
+                gusts={forecast?.daily.windGusts10mMax[0]}
+              />
+            )
+            : [<code className="hidden">Error: forecast undefined!</code>]
+        } />
 
         {/* {
           forecast

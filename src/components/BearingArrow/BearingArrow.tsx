@@ -8,20 +8,22 @@
 const BearingArrow = (
   {
     bearing = 0,
-    size = 15,
-    color = "black"
+    arrowSize = 15,
+    color = "black",
+    boxSize = "70%"
   }: {
     bearing: number,
-    size?: number,
-    color?: string
+    arrowSize?: number,
+    color?: string,
+    boxSize?: string
   }) => {
-  const halfSize = size / 2; // For centring
+  const halfSize = arrowSize / 2; // For centring
 
   return (
     <svg
-      width="80%"
-      height="80%"
-      viewBox={`-${halfSize} -${halfSize} ${size} ${size}`} // Origin is within centre of element
+      width={boxSize}
+      height={boxSize}
+      viewBox={`-${halfSize} -${halfSize} ${arrowSize} ${arrowSize}`} // Origin is within centre of element
       xmlns="http://www.w3.org/2000/svg"
       className={"mx-auto my-0 overflow-hidden block"}
       style={{
