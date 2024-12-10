@@ -20,7 +20,11 @@ const StartScreen = ({ className, getLocation }: { className?: string, getLocati
           onClick={() => {
             getLocation()
             setIsLoading(true)
-          }}>{isLoading ? "Loading..." : "Get started!"}</button>
+          }}
+          aria-label="Get location"
+        >
+          {isLoading ? "Loading..." : "Get started!"}
+        </button>
       </div>
     </div>
   )
