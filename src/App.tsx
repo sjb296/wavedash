@@ -14,24 +14,10 @@ import calcStarRating from "./utils/calcStarRating"
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
 import SkeletonCarousel from "./components/SkeletonCarousel/SkeletonCarousel"
 import StartScreen from "./components/StartScreen/StartScreen"
-
-type Location = {
-  latitude: number
-  longitude: number
-} | null
-
-type Forecast = {
-  daily: {
-    time: Date[]
-    weatherCode: Float32Array
-    temperature2mMax: Float32Array
-    temperature2mMin: Float32Array
-    precipitationProbabilityMean: Float32Array
-    windSpeed10mMax: Float32Array
-    windGusts10mMax: Float32Array
-    windDirection10mDominant: Float32Array
-  }
-} | null
+import argmax from "./utils/argmax"
+import Forecast from "./types/Forecast"
+import Location from "./types/Location"
+import BestDay from "./components/BestDay/BestDay"
 
 const App = () => {
   // States
@@ -43,8 +29,11 @@ const App = () => {
   const carouselsRef = useRef<HTMLDivElement[]>([])
 
   // Values
-  const forecastDays = 14;
+  const forecastDays = 14
 
+  /**
+   * Hide the start screen and make it intangible. It has a fade-out animation.
+   */
   const hideStartScreen = () => {
     document.getElementById("start-screen")?.classList.add("opacity-0")
     document.getElementById("start-screen")?.classList.add("pointer-events-none")
@@ -62,7 +51,6 @@ const App = () => {
    *   items={...}
    * />
    * ```
-   * 
    */
   const registerCarousel = useCallback((el: HTMLDivElement | null) => {
     if (el && !carouselsRef.current.includes(el)) {
@@ -119,19 +107,19 @@ const App = () => {
 
       // Helper function to form time ranges
       const range = (start: number, stop: number, step: number) =>
-        Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+        Array.from({ length: (stop - start) / step }, (_, i) => start + i * step)
 
       // Process first location. Add a for-loop for multiple locations or weather models
-      const response = responses[0];
+      const response = responses[0]
 
       // Attributes for timezone and location
-      const utcOffsetSeconds = response.utcOffsetSeconds();
-      // const timezone = response.timezone();
-      // const timezoneAbbreviation = response.timezoneAbbreviation();
-      // const responseLatitude = response.latitude();
-      // const responseLongitude = response.longitude();
+      const utcOffsetSeconds = response.utcOffsetSeconds()
+      // const timezone = response.timezone()
+      // const timezoneAbbreviation = response.timezoneAbbreviation()
+      // const responseLatitude = response.latitude()
+      // const responseLongitude = response.longitude()
 
-      const daily = response.daily()!;
+      const daily = response.daily()!
 
       // Note: The order of weather variables in the URL query and the indices below need to match!
       const weatherData = {
@@ -146,8 +134,32 @@ const App = () => {
           windSpeed10mMax: daily.variables(4)!.valuesArray()!,
           windGusts10mMax: daily.variables(5)!.valuesArray()!,
           windDirection10mDominant: daily.variables(6)!.valuesArray()!,
+          sailingRatings: indicesArray(forecastDays).map(() => 0),
+          swimmingRatings: indicesArray(forecastDays).map(() => 0),
         },
-      };
+      }
+
+      // Calculate and set ratings (SAILING)
+      weatherData.daily.sailingRatings.map((_, i) => {
+        weatherData.daily.sailingRatings[i] = calcStarRating(
+          true,
+          weatherData.daily.windSpeed10mMax[i],
+          weatherData.daily.precipitationProbabilityMean[i],
+          weatherData.daily.temperature2mMax[i],
+          weatherData.daily.temperature2mMin[i]
+        )
+      })
+
+      // Calculate and set ratings (SWIMMING)
+      weatherData.daily.swimmingRatings.map((_, i) => {
+        weatherData.daily.swimmingRatings[i] = calcStarRating(
+          false,
+          weatherData.daily.windSpeed10mMax[i],
+          weatherData.daily.precipitationProbabilityMean[i],
+          weatherData.daily.temperature2mMax[i],
+          weatherData.daily.temperature2mMin[i]
+        )
+      })
 
       console.log("Weather data: ", weatherData)
       setForecast(weatherData)
@@ -164,11 +176,6 @@ const App = () => {
       getForecast()
     }
   }, [location, getForecast])
-
-  // Get forecast on first load
-  // useEffect(() => {
-  //   getLocation()
-  // }, [])
 
   return (
     <>
@@ -216,13 +223,7 @@ const App = () => {
                   ? indicesArray(forecastDays).map(
                     idx => <StarRating
                       stars={
-                        calcStarRating(
-                          true,
-                          forecast?.daily.windSpeed10mMax[idx],
-                          forecast?.daily.precipitationProbabilityMean[idx],
-                          forecast?.daily.temperature2mMax[idx],
-                          forecast?.daily.temperature2mMin[idx]
-                        )
+                        forecast?.daily.sailingRatings[idx]
                       }
                       dayOfWeek={forecast?.daily.time[idx].getDay()}
                     />
@@ -247,13 +248,7 @@ const App = () => {
                   ? indicesArray(forecastDays).map(
                     idx => <StarRating
                       stars={
-                        calcStarRating(
-                          false,
-                          forecast?.daily.windSpeed10mMax[idx],
-                          forecast?.daily.precipitationProbabilityMean[idx],
-                          forecast?.daily.temperature2mMax[idx],
-                          forecast?.daily.temperature2mMin[idx]
-                        )
+                        forecast?.daily.swimmingRatings[idx]
                       }
                       dayOfWeek={forecast?.daily.time[idx].getDay()}
                     />
@@ -267,18 +262,18 @@ const App = () => {
       </div>
 
       {/* Double small previews (temp icons here) - maybe put best days in here */}
-      {/* <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
-        <div>aaa</div>
-        <div>aaa</div>
-      </div> */}
+      <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
+        {forecast ? <BestDay forecast={forecast} sailing={true} /> : <></>}
+        {forecast ? <BestDay forecast={forecast} sailing={false} /> : <></>}
+      </div >
 
       {/* Main weather forecast section */}
-      <div className="card text-center">
+      < div className="card text-center" >
         {/* <button className="btn-secondary" onClick={getLocation}>Get location</button> */}
 
-        <h1 className="text-xl font-bold text-start">
+        < h1 className="text-xl font-bold text-start" >
           Daily forecast
-        </h1>
+        </h1 >
 
         <hr className="mt-2" />
 
@@ -363,24 +358,7 @@ const App = () => {
             } />
             : <SkeletonCarousel rows={4} cols={forecastDays} />
         }
-
-        {/* {
-          forecast
-          && (
-            <p className="overflow-scroll">
-              Forecast response: {JSON.stringify(forecast)}
-            </p>
-          )
-          || (
-            <div className="animate-pulse my-2">
-              <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-              <div className="h-6 bg-gray-300 rounded w-1/2 mb-2"></div>
-              <div className="h-6 bg-gray-300 rounded w-full"></div>
-            </div>
-          )
-        } */}
-        {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}
-      </div>
+      </div >
     </>
   )
 }

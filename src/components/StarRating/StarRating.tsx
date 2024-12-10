@@ -8,7 +8,7 @@ import day from "../../utils/day";
  * @param stars The number of stars to display
  * @param dayOfWeek The day of the week to display the star rating for
  */
-const StarRating = ({ stars, dayOfWeek }: { stars: number, dayOfWeek: number }) => {
+const StarRating = ({ stars, dayOfWeek }: { stars: number, dayOfWeek?: number }) => {
   if (stars < 0) {
     stars = 0
   }
@@ -18,7 +18,11 @@ const StarRating = ({ stars, dayOfWeek }: { stars: number, dayOfWeek: number }) 
 
   return (
     <div className="text-center py-1">
-      <p className="text-sm lg:text-lg font-medium text-main-text-color">{day(dayOfWeek)}</p>
+      {
+        dayOfWeek !== undefined
+          ? <p className="text-sm lg:text-lg font-medium text-main-text-color">{day(dayOfWeek)}</p>
+          : <></>
+      }
       <div className="flex justify-center flex-wrap px-2 text-md lg:text-2xl text-yellow-500">
         {/* Full stars */}
         {[...Array(numFullStars)].map((_, i) => (
