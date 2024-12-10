@@ -9,8 +9,31 @@ const BestDay = ({ forecast, sailing }: { forecast: Forecast | null, sailing: bo
       <div className="flex flex-col items-center">
         <h1 className="text-md font-semibold text-start">Best for sailing</h1>
         <div className="flex flex-row justify-center items-center gap-3">
-          <DateGroup date={forecast?.daily.time[argmax(forecast?.daily.sailingRatings)] as Date} />
-          <StarRating stars={Math.max(...forecast?.daily.sailingRatings as number[])} />
+
+          { // Render a skeleton if the forecast is not available
+            forecast !== undefined ?
+              <>
+                <DateGroup date={forecast?.daily.time[argmax(forecast?.daily.sailingRatings)] as Date} />
+                <StarRating stars={Math.max(...forecast?.daily.sailingRatings as number[])} />
+              </> :
+              <>
+                {/* Skeletons */}
+                <div className="flex flex-col gap-1">
+                  <div
+                    className="h-4 w-12 bg-gray-300 rounded-md animate-pulse mx-2"
+                  />
+                  <div
+                    className="h-4 w-12 bg-gray-300 rounded-md animate-pulse mx-2"
+                  />
+                  <div
+                    className="h-4 w-12 bg-gray-300 rounded-md animate-pulse mx-2"
+                  />
+                </div>
+                <div
+                  className="h-4 w-14 bg-gray-300 rounded-md animate-pulse mx-2"
+                />
+              </>
+          }
         </div>
       </div>
     )
