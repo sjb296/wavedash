@@ -7,7 +7,7 @@ const SkeletonCarousel = ({ rows, cols, className }: { rows: number, cols: numbe
       {Array.from({ length: rows }).map((_, index) => (
         <div
           key={index}
-          className="h-4 w-9 bg-gray-300 rounded-md animate-pulse mx-2"
+          className="h-4 w-1/1 bg-gray-300 rounded-md animate-pulse mx-2"
         />
       ))}
     </div>

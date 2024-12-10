@@ -11,7 +11,6 @@ import WindGroup from "./components/Carousel/WindGroup"
 import zip from "./utils/zip"
 import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
-import LoadingScreen from "./components/LoadingScreen/LoadingScreen"
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
 import SkeletonCarousel from "./components/SkeletonCarousel/SkeletonCarousel"
 
