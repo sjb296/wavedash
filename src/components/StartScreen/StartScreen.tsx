@@ -9,7 +9,7 @@ const StartScreen = ({ className, getLocation }: { className?: string, getLocati
       className={"fixed inset-0 bg-white w-screen h-screen z-40 flex justify-center items-center align-middle p-12 " + className}>
       <div className="text-center flex flex-col gap-4 items-center">
         {/* Logo */}
-        <img src="/images/wavedash-high-resolution-logo-transparent.svg" className="h-20" />
+        <img src="/images/wavedash-high-resolution-logo-transparent.svg" className="h-20" alt="Wavedash logo" />
         {/* Body */}
         <h1 className="text-2xl font-medium">Welcome to Wavedash!</h1>
         <p className="text-lg text-slate-500">

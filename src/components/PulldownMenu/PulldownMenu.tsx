@@ -37,8 +37,10 @@ const PulloutMenu = (
             <ul className="flex items-center gap-2"><FaGear className="text-blue-400" />Settings</ul>
           </a> */}
           <a className="text-sm text-blue-400" href="https://sambarker.xyz" target="_blank">
-            <ul className="text-sm"></ul>
-            <ul>Wavedash by Sam Barker. Click here and check out my site!</ul>
+            <ul>
+              <li className="text-sm"></li>
+              <li>Wavedash by Sam Barker. Click here and check out my site!</li>
+            </ul>
           </a>
         </div>
       </div>
