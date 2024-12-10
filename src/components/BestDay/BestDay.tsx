@@ -18,6 +18,7 @@ const BestDay = ({ forecast, sailing }: { forecast: Forecast | null, sailing: bo
               </> :
               <>
                 {/* Skeletons */}
+                {/* Date group */}
                 <div className="flex flex-col gap-1">
                   <div
                     className="h-4 w-12 bg-gray-300 rounded-md animate-pulse mx-2"
@@ -29,6 +30,7 @@ const BestDay = ({ forecast, sailing }: { forecast: Forecast | null, sailing: bo
                     className="h-4 w-12 bg-gray-300 rounded-md animate-pulse mx-2"
                   />
                 </div>
+                {/* Star rating */}
                 <div
                   className="h-4 w-14 bg-gray-300 rounded-md animate-pulse mx-2"
                 />
