@@ -16,7 +16,7 @@ const StartScreen = ({ className, getLocation }: { className?: string, getLocati
           This app requires your location to provide accurate weather data.
           Please allow access to your location to continue.
         </p>
-        <button className="bg-blue-400 text-white rounded-3xl py-3 px-5 m-0 font-medium max-w-fit"
+        <button className="bg-blue-400 text-white rounded-3xl py-3 px-5 m-0 font-medium w-36"
           onClick={() => {
             getLocation()
             setIsLoading(true)
