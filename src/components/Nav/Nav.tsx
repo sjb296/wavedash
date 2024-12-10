@@ -12,7 +12,7 @@ const Nav = () => {
   return (
     <>
       <div className="card mt-3 sticky">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <a href="#"><img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" /></a>
           {/* Hamburger menu */}
           <button onClick={toggleMenu}>

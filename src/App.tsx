@@ -13,6 +13,7 @@ import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
 import SkeletonCarousel from "./components/SkeletonCarousel/SkeletonCarousel"
+import StartScreen from "./components/StartScreen/StartScreen"
 
 type Location = {
   latitude: number
@@ -43,6 +44,13 @@ const App = () => {
 
   // Values
   const forecastDays = 14;
+
+  const hideStartScreen = () => {
+    document.getElementById("start-screen")?.classList.add("opacity-0")
+    document.getElementById("start-screen")?.classList.add("pointer-events-none")
+    document.getElementById("start-screen")?.classList.add("fadeout")
+    document.getElementById("start-screen")?.classList.remove("opacity-100")
+  }
 
   /**
    * Register a carousel element to the carouselsRef reference. This will
@@ -149,17 +157,18 @@ const App = () => {
     }
   }, [location])
 
-  // Get forecast when location changes
+  // Get forecast and hide start screen when location changes
   useEffect(() => {
     if (location) {
+      hideStartScreen()
       getForecast()
     }
   }, [location, getForecast])
 
   // Get forecast on first load
-  useEffect(() => {
-    getLocation()
-  }, [])
+  // useEffect(() => {
+  //   getLocation()
+  // }, [])
 
   return (
     <>
@@ -169,12 +178,8 @@ const App = () => {
           ? <ErrorScreen className="opacity-100" />
           : <ErrorScreen className="opacity-0 pointer-events-none" />
       }
-      {/* hide content until the data comes through or an error occurs */}
-      {/* {
-        forecast
-          ? <LoadingScreen className="opacity-0 pointer-events-none" />
-          : <LoadingScreen className="opacity-100" />
-      } */}
+      {/* hide content until the user clicks the get location button */}
+      <StartScreen className="opacity-100" getLocation={getLocation} />
 
       <Nav />
 
