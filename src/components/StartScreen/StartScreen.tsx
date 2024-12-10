@@ -1,4 +1,8 @@
+import { useState } from "react"
+
 const StartScreen = ({ className, getLocation }: { className?: string, getLocation: () => void }) => {
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
     <div
       id="start-screen"
@@ -12,7 +16,11 @@ const StartScreen = ({ className, getLocation }: { className?: string, getLocati
           This app requires your location to provide accurate weather data.
           Please allow access to your location to continue.
         </p>
-        <button className="bg-blue-400 text-white rounded-3xl py-3 px-5 m-0 font-medium max-w-fit" onClick={getLocation}>Get started!</button>
+        <button className="bg-blue-400 text-white rounded-3xl py-3 px-5 m-0 font-medium max-w-fit"
+          onClick={() => {
+            getLocation()
+            setIsLoading(true)
+          }}>{isLoading ? "Loading..." : "Get started!"}</button>
       </div>
     </div>
   )
