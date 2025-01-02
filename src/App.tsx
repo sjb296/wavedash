@@ -176,6 +176,18 @@ const App = () => {
     }
   }, [location, getForecast])
 
+  // Set location permission to false by default. If the user gives permission,
+  // don't show the start screen again.
+  useEffect(() => {
+    if (window.localStorage.getItem("hasGivenLocationPermission") === null) {
+      window.localStorage.setItem("hasGivenLocationPermission", "false")
+    } else if (window.localStorage.getItem("hasGivenLocationPermission") === "true") {
+      // User granted permission before - Go ahead and get the location
+      getLocation()
+    }
+  }, [])
+
+
   return (
     <>
       {/* Error screen covering the whole screen */}
@@ -185,7 +197,11 @@ const App = () => {
           : <ErrorScreen className="opacity-0 pointer-events-none" />
       }
       {/* hide content until the user clicks the get location button */}
-      <StartScreen className="opacity-100" getLocation={getLocation} />
+      {
+        window.localStorage.getItem("hasGivenLocationPermission") === "false"
+          ? <StartScreen className="opacity-100" getLocation={getLocation} />
+          : <StartScreen className="opacity-0 pointer-events-none" getLocation={getLocation} />
+      }
 
       <Nav />
 
