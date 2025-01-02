@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.sambarker.wavedash.twa",
+        "sha256_cert_fingerprints": ["6C:05:C8:39:D9:18:B7:75:1D:AE:B1:38:C1:33:C8:31:AA:79:91:11:A7:0D:E2:90:10:01:B7:B4:91:17:0F:53"]
+      }
+    }]
