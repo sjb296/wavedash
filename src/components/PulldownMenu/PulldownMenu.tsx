@@ -38,10 +38,10 @@ const PulloutMenu = (
           </a> */}
           <a className="text-sm text-blue-400" href="https://sambarker.xyz" target="_blank">
             <ul>
-              <li className="text-sm"></li>
               <li>Wavedash by Sam Barker. Click here and check out my site!</li>
             </ul>
           </a>
+          <p className="text-xs text-slate-600">Disclaimer: This website and any data displayed herein are NOT to be used for navigation. I am not responsible for any damages that may occur from using this website.</p>
         </div>
       </div>
     </>

@@ -11,6 +11,7 @@ export default defineConfig({
       includeAssets: ['favicon.svg'],
       manifest: {
         name: 'Wavedash',
+        id: '/',
         short_name: 'Wavedash',
         theme_color: '#007bff',
         icons: [
@@ -42,15 +43,22 @@ export default defineConfig({
             type: 'image/png',
             form_factor: 'narrow',
           },
-          // {
-          //   src: 'screenshot-3.png',
-          //   sizes: '1920x1080',
-          //   type: 'image/png',
-          //   label: 'Dark mode',
-          // },
-        ]
+        ],
+        launch_handler: {
+          'client_mode': 'auto',
+        },
+        orientation: 'any',
+        'display_override': [
+          'window-controls-overlay'
+        ],
+        'categories': [
+          'utilities',
+          'weather'
+        ],
+        dir: 'ltr',
+        prefer_related_applications: false,
       }
     }),
   ],
-  base: "/"
+  base: '/'
 })
