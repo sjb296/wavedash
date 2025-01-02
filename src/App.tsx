@@ -198,7 +198,7 @@ const App = () => {
       }
       {/* hide content until the user clicks the get location button */}
       {
-        window.localStorage.getItem("hasGivenLocationPermission") === "false"
+        window.localStorage.getItem("hasGivenLocationPermission") === "false" || window.localStorage.getItem("hasGivenLocationPermission") === null
           ? <StartScreen className="opacity-100" getLocation={getLocation} />
           : <StartScreen className="opacity-0 pointer-events-none" getLocation={getLocation} />
       }

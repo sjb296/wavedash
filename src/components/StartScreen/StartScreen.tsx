@@ -20,7 +20,7 @@ const StartScreen = (
         <img src="/images/wavedash-high-resolution-logo-transparent.svg" className="h-20" alt="Wavedash logo" />
         {/* Body - only show if the user hasn't given location permission yet */}
         {
-          window.localStorage.getItem("hasGivenLocationPermission") === "false"
+          window.localStorage.getItem("hasGivenLocationPermission") === "false" || window.localStorage.getItem("hasGivenLocationPermission") === null
             ?
             <>
               <h1 className="text-2xl font-medium">Welcome to Wavedash!</h1>
