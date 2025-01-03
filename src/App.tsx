@@ -12,11 +12,12 @@ import zip from "./utils/zip"
 import indicesArray from "./utils/indicesArray"
 import calcStarRating from "./utils/calcStarRating"
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen"
-import SkeletonCarousel from "./components/SkeletonCarousel/SkeletonCarousel"
+import SkeletonCarousel from "./components/Carousel/SkeletonCarousel"
 import StartScreen from "./components/StartScreen/StartScreen"
 import Forecast from "./types/Forecast"
 import Location from "./types/Location"
 import BestDay from "./components/BestDay/BestDay"
+import SkeletonBestDay from "./components/BestDay/SkeletonBestDay"
 
 const App = () => {
   // States
@@ -270,8 +271,8 @@ const App = () => {
 
       {/* Double small previews (temp icons here) - maybe put best days in here */}
       <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
-        {forecast ? <BestDay forecast={forecast} sailing={true} /> : <></>}
-        {forecast ? <BestDay forecast={forecast} sailing={false} /> : <></>}
+        {forecast ? <BestDay forecast={forecast} sailing={true} /> : <SkeletonBestDay />}
+        {forecast ? <BestDay forecast={forecast} sailing={false} /> : <SkeletonBestDay />}
       </div >
 
       {/* Main weather forecast section */}
