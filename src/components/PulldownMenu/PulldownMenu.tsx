@@ -36,12 +36,14 @@ const PulloutMenu = (
           <a href="#">
             <ul className="flex items-center gap-2"><FaGear className="text-blue-400" />Settings</ul>
           </a> */}
+          <a className="text-sm text-blue-400" rel="preconnect" href="/privacy.html">Privacy policy</a>
           <a className="text-sm text-blue-400" href="https://sambarker.xyz" target="_blank">
             <ul>
               <li>Wavedash by Sam Barker. Click here and check out my site!</li>
             </ul>
           </a>
-          <p className="text-xs text-slate-600">Disclaimer: This website and any data displayed herein are NOT to be used for navigation. I am not responsible for any damages that may occur from using this website.</p>
+          <p className="text-xs text-slate-600">Disclaimer: This app and any data displayed herein are NOT to be used for navigation. I am not responsible for any damages that may occur from using this app.</p>
+
         </div>
       </div>
     </>

@@ -13,7 +13,7 @@ const Nav = () => {
     <>
       <div className="card mt-3 sticky">
         <div className="flex justify-between items-center">
-          <a href="#"><img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" /></a>
+          <a href="#"><img src="/images/wavedash-high-resolution-logo-transparent.svg" alt="Wavedash logo" className="h-6" width="24px" height="24px" /></a>
           {/* Hamburger menu */}
           <button aria-label="Toggle menu" onClick={toggleMenu}>
             <HamburgerSvg />

@@ -205,14 +205,6 @@ const App = () => {
 
       <Nav />
 
-      {/* "This app is designed for phones" message */}
-      <div className="card hidden md:block">
-        <p className="text-md text-pink-700">
-          <b>Notice:</b> This app is designed for mobile devices, and will function on larger screens,
-          but look best on smaller ones. Try it on your phone!
-        </p>
-      </div>
-
       {/* 
         *
         * RATINGS
@@ -222,7 +214,7 @@ const App = () => {
         <h1 className="text-xl font-bold">
           Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
         </h1>
-        <p className="text-sm text-slate-400">Here's an overview of the week's weather.</p>
+        <p className="text-sm text-slate-700">Here's an overview of the week's weather.</p>
 
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}
