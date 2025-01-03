@@ -335,8 +335,10 @@ const App = () => {
           forecast != undefined
             ? <Carousel ref={(el) => registerCarousel(el)} onScroll={(e) => handleCarouselScroll(e.target as HTMLDivElement)} items={
               forecast != undefined
-                ? Array.from(forecast?.daily.precipitationProbabilityMean).map(
-                  item => <RainGroup precipitationProbabilityMean={item} />
+                ? indicesArray(forecastDays).map((idx) =>
+                  <RainGroup
+                    precipitationProbabilityMean={forecast?.daily.precipitationProbabilityMean[idx]}
+                    weatherCode={forecast?.daily.weatherCode[idx]} />
                 )
                 : [<code className="hidden">Error: forecast undefined!</code>]
             } />
