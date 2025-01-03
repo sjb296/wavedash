@@ -34,7 +34,7 @@
         @apply bg-gradient-to-br from-blue-500 to-blue-300;
     }
     .grad-secondary {
-        @apply bg-gradient-to-br from-slate-100 to-slate-50;
+        @apply bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-800;
     }
 
     /* Buttons */
