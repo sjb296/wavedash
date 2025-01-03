@@ -7,13 +7,13 @@ const SkeletonBestDay = () => {
         {/* Date group */}
         <div className="flex flex-col gap-1.5">
           <div
-            className="h-4 w-12 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
+            className="h-4 w-8 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
           />
           <div
-            className="h-4 w-12 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
+            className="h-4 w-8 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
           />
           <div
-            className="h-4 w-12 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
+            className="h-4 w-8 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"
           />
         </div>
         {/* Star rating */}
