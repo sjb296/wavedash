@@ -146,7 +146,8 @@ const App = () => {
           weatherData.daily.windSpeed10mMax[i],
           weatherData.daily.precipitationProbabilityMean[i],
           weatherData.daily.temperature2mMax[i],
-          weatherData.daily.temperature2mMin[i]
+          weatherData.daily.temperature2mMin[i],
+          weatherData.daily.weatherCode[i]
         )
       })
 
@@ -157,7 +158,8 @@ const App = () => {
           weatherData.daily.windSpeed10mMax[i],
           weatherData.daily.precipitationProbabilityMean[i],
           weatherData.daily.temperature2mMax[i],
-          weatherData.daily.temperature2mMin[i]
+          weatherData.daily.temperature2mMin[i],
+          weatherData.daily.weatherCode[i]
         )
       })
 
