@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wavedash.sambarker.xyz/sitemap.xml
