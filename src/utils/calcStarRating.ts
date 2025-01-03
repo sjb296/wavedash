@@ -16,7 +16,8 @@ const calcStarRating = (
     windSpeed10mMax: number,
     precipitationProbabilityMean: number,
     temperature2mMax: number,
-    temperature2mMin: number
+    temperature2mMin: number,
+    weatherCode: number
 ) => {
     let starRating = 0
 
@@ -73,6 +74,12 @@ const calcStarRating = (
             // Horrendous
             starRating -= 999.0
         }
+    }
+
+    // Weather code - abnormal weather
+    if ([5, 6, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30].includes(weatherCode)) {
+        // Abnormal weather (mist, fog, hail, snow, thunder)
+        starRating -= 999.0
     }
 
     // console.log("Wind speed: ", windSpeed10mMax)
