@@ -50,7 +50,6 @@ export default defineConfig({
         orientation: 'any',
         'display_override': [
           'standalone',
-          'window-controls-overlay'
         ],
         'categories': [
           'utilities',
