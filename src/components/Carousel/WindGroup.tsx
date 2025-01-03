@@ -15,7 +15,7 @@ const WindGroup = ({ bearing, maxSpeed, gusts }: { bearing: number, maxSpeed: nu
       <BearingArrow bearing={bearing} arrowSize={30} />
       <div>{bearingToDirection(bearing)}</div>
       <div>{maxSpeed.toFixed(1)}</div>
-      <div className="text-sm text-slate-400">{gusts.toFixed(1)}</div>
+      <div className="text-sm">{gusts.toFixed(1)}</div>
     </div>
   )
 }

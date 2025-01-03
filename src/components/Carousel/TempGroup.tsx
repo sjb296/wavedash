@@ -9,7 +9,7 @@ const TempGroup = ({ max, min }: { max: number, min: number }) => {
   return (
     <div className="flex flex-col items-center">
       <div>{max.toFixed(1) + "°"}</div>
-      <div className="text-sm text-slate-400">{min.toFixed(1) + "°"}</div>
+      <div className="text-sm">{min.toFixed(1) + "°"}</div>
     </div>
   )
 }

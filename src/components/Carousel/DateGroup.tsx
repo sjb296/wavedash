@@ -11,7 +11,7 @@ import nth from "../../utils/nth"
 const DateGroup = ({ date }: { date: Date }) => {
   return (
     <div className="flex flex-col">
-      <div className="text-sm text-slate-400 -mb-1.5">{month(date.getMonth())}</div>
+      <div className="text-sm  -mb-1.5">{month(date.getMonth())}</div>
       <div className="text-lg font-medium -mb-1.5">{day(date.getDay())}</div>
       <div>{nth(date.getDate())}</div>
     </div>

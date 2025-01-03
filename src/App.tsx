@@ -304,7 +304,7 @@ const App = () => {
           * TEMPERATURES 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Temperature (°C)</p>
+        <p className="text-start text-sm font-bold">Temperature (°C)</p>
 
         {
           forecast != undefined
@@ -329,7 +329,7 @@ const App = () => {
           * RAIN 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Rain</p>
+        <p className="text-start text-sm font-bold">Rain</p>
 
         {
           forecast != undefined
@@ -348,7 +348,7 @@ const App = () => {
           * WIND 
           *
           */}
-        <p className="text-start text-sm text-slate-400 font-bold">Wind (kt)</p>
+        <p className="text-start text-sm font-bold">Wind (kt)</p>
 
         {
           forecast != undefined
