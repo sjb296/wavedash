@@ -214,7 +214,7 @@ const App = () => {
         <h1 className="text-xl font-bold">
           Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
         </h1>
-        <p className="text-sm text-slate-700">Here's an overview of the week's weather.</p>
+        <p className="text-sm">Here's an overview of the week's weather.</p>
 
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}

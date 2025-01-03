@@ -42,7 +42,7 @@ const PulloutMenu = (
               <li>Wavedash by Sam Barker. Click here and check out my site!</li>
             </ul>
           </a>
-          <p className="text-xs text-slate-600">Disclaimer: This app and any data displayed herein are NOT to be used for navigation. I am not responsible for any damages that may occur from using this app.</p>
+          <p className="text-xs">Disclaimer: This app and any data displayed herein are NOT to be used for navigation. I am not responsible for any damages that may occur from using this app.</p>
 
         </div>
       </div>

@@ -33,7 +33,8 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       <div
         className={"relative flex items-center card-invis p-0 mx-0 scrollbar-hide w-full " + (className ? className : "")}>
         {/* Left gradient overlay */}
-        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-white to-transparent pointer-events-none " />
+        <div style={{ zIndex: 6 }} /* z-index higher than stars (whose max is 5) */
+          className="absolute left-0 top-0 bottom-0 w-6 dark:w-9 bg-gradient-to-r from-white dark:from-black to-transparent pointer-events-none " />
 
         {/* Content container */}
         <div
@@ -52,7 +53,8 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         </div>
 
         {/* Right gradient overlay */}
-        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+        <div style={{ zIndex: 6 }} /* z-index higher than stars (whose max is 5) */
+          className="absolute right-0 top-0 bottom-0 w-6 dark:w-9 bg-gradient-to-l from-white dark:from-black to-transparent pointer-events-none" />
       </div>
     )
   }

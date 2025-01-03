@@ -26,7 +26,7 @@ const StarRating = ({ stars, dayOfWeek }: { stars: number, dayOfWeek?: number })
       <div className="flex justify-center flex-wrap px-2 text-md lg:text-2xl text-yellow-500">
         {/* Full stars */}
         {[...Array(numFullStars)].map((_, i) => (
-          <div key={i} className="-mx-1 relative">
+          <div key={i} className="-mx-1 relative" style={{ zIndex: 5 - i }}>
             <FaStar className="drop-shadow-md" />
           </div>
         ))}
@@ -35,16 +35,18 @@ const StarRating = ({ stars, dayOfWeek }: { stars: number, dayOfWeek?: number })
           <div
             key={`half-${i}`}
             className="relative -mx-1 w-[1em] h-[1em] inline-block text-yellow-500"
+            style={{ zIndex: 5 - numFullStars - i }}
           >
             {/* Background grey star */}
-            <FaStar className="absolute inset-0 text-slate-300 drop-shadow-md" />
+            <FaStar className="absolute inset-0 text-slate-300 dark:text-slate-800 drop-shadow-md" />
             {/* Overlay half star */}
             <FaStarHalf className="absolute inset-0" />
           </div>
         ))}
         {/* Empty stars */}
         {[...Array(numEmptyStars)].map((_, i) => (
-          <div key={i} className="-mx-1 text-slate-300 drop-shadow-md">
+          <div key={i} className="-mx-1 text-slate-300 dark:text-slate-800 drop-shadow-md"
+            style={{ zIndex: 5 - numFullStars - numHalfStars - i }}>
             <FaStar />
           </div>
         ))}

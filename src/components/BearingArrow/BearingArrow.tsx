@@ -9,7 +9,7 @@ const BearingArrow = (
   {
     bearing = 0,
     arrowSize = 15,
-    color = "black",
+    color = window.matchMedia("(prefers-color-scheme: dark)").matches ? "#fff" : "#000",
     boxSize = "70%"
   }: {
     bearing: number,

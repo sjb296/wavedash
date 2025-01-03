@@ -5,8 +5,19 @@
 :root {
     --background-color: #f6fcff;
     --main-text-color: rgb(19, 34, 34);
+    --card-background-color: rgb(255, 255, 255);
     background-color: var(--background-color);
     color: var(--main-text-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #0f172a;
+        --main-text-color: #f6fcff;
+        --card-background-color: #000000;
+        background-color: var(--background-color);
+        color: var(--main-text-color);
+    }
 }
 
 #root {
@@ -36,7 +47,8 @@
 
     /* Single, full-width card with a background and a shadow */
     .card {
-        @apply py-5 px-5 mx-5 my-1.5 bg-white shadow-md rounded-xl w-11/12 lg:w-1/2;
+        @apply py-5 px-5 mx-5 my-1.5 shadow-md rounded-xl w-11/12 lg:w-1/2;
+        background-color: var(--card-background-color);
     }
     /* Card with only the layout properties - no background or shadow */
     .card-invis {
@@ -47,7 +59,8 @@
         @apply flex flex-row w-11/12 lg:w-1/2 gap-3;
     }
     .double-card > div {
-        @apply py-5 px-5 my-1.5 bg-white shadow-md rounded-xl w-1/2 flex justify-center;
+        @apply py-5 px-5 my-1.5 shadow-md rounded-xl w-1/2 flex justify-center;
+        background-color: var(--card-background-color);
     }
 
     .pulldown-darken {
@@ -55,7 +68,7 @@
             duration-300 ease-in-out overflow-hidden;
     }
     .pulldown-frame {
-        @apply absolute top-0 right-0 w-screen h-auto bg-white transition-transform
+        @apply absolute top-0 right-0 w-screen h-auto bg-white dark:bg-black transition-transform
             duration-300 ease-in-out overflow-hidden px-9 py-8;
     }
 
