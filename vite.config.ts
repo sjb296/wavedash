@@ -29,7 +29,7 @@ export default defineConfig({
         display: 'standalone',
         scope: '/',
         start_url: '/',
-        description: 'See at a glance when\'s best for sailing and swimming with Wavedash!',
+        description: 'See at a glance when\'s best for sailing and swimming with Wavedash! This app helps you find the best time to sail or swim, based on the wind and waves. With our star rating system, you can get an idea of how good the conditions will be at a glance, no fuss. And for those short on time, Wavedash will tell you the best days for sailing or swimming in a dedicated display! Perfect for on the go.',
         screenshots: [
           {
             src: 'screenshot-desktop.png',
