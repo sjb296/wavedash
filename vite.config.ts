@@ -13,7 +13,7 @@ export default defineConfig({
         name: 'Wavedash',
         id: '/',
         short_name: 'Wavedash',
-        theme_color: '#007bff',
+        theme_color: '#f6fcff',
         icons: [
           {
             src: 'web-app-manifest-192x192.png',
