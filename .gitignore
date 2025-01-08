@@ -25,5 +25,3 @@ dist-ssr
 
 # Google Play asset links
 assetlinks.json
-signing.keystore
-signing-key-info.txt
