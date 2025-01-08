@@ -48,10 +48,10 @@ export default defineConfig({
           'client_mode': 'auto',
         },
         orientation: 'any',
-        'display_override': [
+        display_override: [
           'standalone',
         ],
-        'categories': [
+        categories: [
           'utilities',
           'weather'
         ],
