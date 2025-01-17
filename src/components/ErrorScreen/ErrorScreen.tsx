@@ -17,7 +17,7 @@ const ErrorScreen = ({ className, err }: { className?: string, err?: string }) =
         <h1 className="text-3xl font-bold">Error</h1>
         <p className="text-lg">Apologies, we've run into a problem.</p>
         <p className="text-lg">{errorMessage ? errorMessage : err}</p>
-        {errorIsLocationPermissionDenied ? <a className="btn-primary" href="app-settings:">Open App Settings</a> : <></>}
+        {/* {errorIsLocationPermissionDenied ? <a className="btn-primary" href="app-settings:">Open App Settings</a> : <></>} */}
         <button className="text-blue-500"
           onClick={() => window.location.reload()}>Reload app</button>
       </div>
