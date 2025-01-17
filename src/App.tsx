@@ -196,8 +196,8 @@ const App = () => {
       {/* Error screen covering the whole screen */}
       {
         error
-          ? <ErrorScreen className="opacity-100" />
-          : <ErrorScreen className="opacity-0 pointer-events-none" />
+          ? <ErrorScreen className="opacity-100" err={error} />
+          : <ErrorScreen className="opacity-0 pointer-events-none" err={""} />
       }
       {/* hide content until the user clicks the get location button */}
       {
