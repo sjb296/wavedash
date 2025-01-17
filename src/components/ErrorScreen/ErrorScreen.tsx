@@ -1,10 +1,10 @@
 const ErrorScreen = ({ className, err }: { className?: string, err?: string }) => {
   let errorMessage = err
-  let errorIsLocationPermissionDenied = false
+  // let errorIsLocationPermissionDenied = false
   if (err === "User denied Geolocation") {
     console.error("User denied Geolocation")
     errorMessage = "You have denied the app's request for location. Please grant location permissions and try again."
-    errorIsLocationPermissionDenied = true
+    // errorIsLocationPermissionDenied = true
   } else if (err === "Network error. Check DevTools console for more information.") {
     errorMessage = "There has been a network error. Please check your internet connection and try again."
   }
