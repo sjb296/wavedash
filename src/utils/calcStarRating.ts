@@ -23,12 +23,30 @@ const calcStarRating = (
 
     // Temperature
     const temperature2mMean = (temperature2mMax + temperature2mMin) / 2
-    if (temperature2mMean > 20) {
-        // Best
-        starRating += 1.5
-    } else if (temperature2mMean > 12 && temperature2mMean < 20) {
-        starRating += 0.5
-    } // Anything lower is a bit cold
+    if (sailing) {
+        // Sailing
+        if (temperature2mMean > 20) {
+            // Best
+            starRating += 1.5
+        } else if (temperature2mMean > 12 && temperature2mMean < 20) {
+            starRating += 0.
+        } // Anything lower is a bit cold
+    } else {
+        // Swimming
+        if (temperature2mMean > 23) {
+            // Best
+            starRating += 2.5
+        } else if (temperature2mMean > 19 && temperature2mMean < 23) {
+            starRating += 1.5
+        } else if (temperature2mMean > 16 && temperature2mMean < 19) {
+            starRating += 0.5
+        } else if (temperature2mMean > 12 && temperature2mMean < 16) {
+            starRating -= 0.5
+        } else if (temperature2mMean < 12) {
+            starRating -= 1.5
+        }
+    }
+
 
     // Rain
     if (precipitationProbabilityMean < 10) {
@@ -49,7 +67,7 @@ const calcStarRating = (
         } else if (windSpeed10mMax > 7 && windSpeed10mMax <= 8) {
             // 7/8 knots is okay wind for a dinghy if on the low side
             starRating += 0.5
-        } else if (windSpeed10mMax > 12 && windSpeed10mMax <= 16) {
+        } else if (windSpeed10mMax > 12 && windSpeed10mMax <= 18) {
             // Best wind
             starRating += 1.5
         } else if (windSpeed10mMax > 22 && windSpeed10mMax <= 25) {
@@ -86,7 +104,7 @@ const calcStarRating = (
     // console.log("Precipitation: ", precipitationProbabilityMean)
     // console.log("Temperature: ", temperature2mMean)
     // console.log(starRating)
-    return starRating
+    return Math.min(starRating, 5.0)
 }
 
 export default calcStarRating
