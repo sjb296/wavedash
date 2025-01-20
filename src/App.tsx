@@ -366,7 +366,7 @@ const App = () => {
                     gusts={forecast?.daily.windGusts10mMax[idx]}
                   />
                 )
-                : [<code className="hidden">Error: forecast undefined!</code>]
+                : [<code className="hidden">Error: forecast undefined</code>]
             } />
             : <SkeletonCarousel rows={4} cols={forecastDays} />
         }
