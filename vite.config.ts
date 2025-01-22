@@ -12,7 +12,6 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
-      strategies: 'injectManifest',
       manifest: {
         name: 'Wavedash',
         id: '/',
