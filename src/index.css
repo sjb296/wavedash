@@ -26,6 +26,16 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    
+}
+
+body {
+    min-height: 100vh;
+    background-image: url("/public/stacked-waves-haikei.svg");
+    background-attachment: scroll;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 @layer components {
