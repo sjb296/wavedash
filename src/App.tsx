@@ -241,7 +241,9 @@ const App = () => {
         <h1 className="text-xl font-bold">
 
         </h1>
-        <p className="text-sm">Here's an overview of the week's weather in...</p>
+        <p className={"text-sm" + (forecast && forecast.locality) ? "" : " font-bold"}>
+          Here's an overview of the week's weather...
+        </p>
         {
           forecast && forecast.locality !== null
             ? <h1 className="text-xl font-bold text-start">{forecast!.locality}, {forecast!.principalSubdivision}</h1>
@@ -298,11 +300,12 @@ const App = () => {
             : <SkeletonCarousel rows={3} cols={forecastDays} />
         }
 
-      </div>
+      </div >
 
       {/* Double small previews (temp icons here) - maybe put best days in here */}
-      <div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3">
-        {forecast ? <BestDay forecast={forecast} sailing={true} /> : <SkeletonBestDay />}
+      < div className="double-card flex flex-row w-11/12 lg:w-1/2 gap-3" >
+        {forecast ? <BestDay forecast={forecast} sailing={true} /> : <SkeletonBestDay />
+        }
         {forecast ? <BestDay forecast={forecast} sailing={false} /> : <SkeletonBestDay />}
       </div >
 
@@ -310,9 +313,9 @@ const App = () => {
       < div className="card text-center" >
         {/* <button className="btn-secondary" onClick={getLocation}>Get location</button> */}
 
-        <h1 className="text-xl font-bold text-start" >
+        < h1 className="text-xl font-bold text-start" >
           Daily weather forecast
-        </h1>
+        </h1 >
 
         <hr className="mt-2" />
 
