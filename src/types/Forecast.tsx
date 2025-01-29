@@ -10,7 +10,9 @@ type Forecast = {
     windDirection10mDominant: Float32Array
     sailingRatings: number[]
     swimmingRatings: number[]
-  }
+  },
+  locality: string | null,
+  principalSubdivision: string | null,
 } | null
 
 export default Forecast

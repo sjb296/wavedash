@@ -93,6 +93,28 @@ const App = () => {
    */
   const getForecast = useCallback(async () => {
     if (location) {
+      // Get the locality via reverse geocoding using the bigdatacloud API
+      // Since it's the user's device that makes these requests, the limits won't
+      // be hit.
+      // https://www.bigdatacloud.com/reverse-geocoding
+      // https://api-bdc.io/data/reverse-geocode-client?latitude=50.567479&longitude=-2.446&localityLanguage=en
+      // The API defaults to ip geolocation when coordinate lookup fails
+      const reverseGeoUrl = `https://api-bdc.io/data/reverse-geocode-client?latitude=${location.latitude}&longitude=${location.longitude}&localityLanguage=en`
+
+      const reverseGeocode: {
+        locality: string | null,
+        principalSubdivision: string | null
+      } = await fetch(reverseGeoUrl)
+        .then((resp) => resp.json())
+        .then((data) => {
+          return { locality: data.locality, principalSubdivision: data.principalSubdivision }
+        })
+        .catch((e) => {
+          setError(e.message)
+          return { locality: null, principalSubdivision: null }
+        })
+
+      // Get the forecast
       const params = {
         "latitude": location.latitude,
         "longitude": location.longitude,
@@ -137,6 +159,8 @@ const App = () => {
           sailingRatings: indicesArray(forecastDays).map(() => 0),
           swimmingRatings: indicesArray(forecastDays).map(() => 0),
         },
+        locality: reverseGeocode.locality,
+        principalSubdivision: reverseGeocode.principalSubdivision
       }
 
       // Calculate and set ratings (SAILING)
@@ -215,9 +239,14 @@ const App = () => {
         */}
       <div className="card">
         <h1 className="text-xl font-bold">
-          Good {new Date().getHours() < 12 ? "morning" : "afternoon"}.
+
         </h1>
-        <p className="text-sm">Here's an overview of the week's weather.</p>
+        <p className="text-sm">Here's an overview of the week's weather in...</p>
+        {
+          forecast && forecast.locality !== null
+            ? <h1 className="text-xl font-bold text-start">{forecast!.locality}, {forecast!.principalSubdivision}</h1>
+            : <></>
+        }
 
         <h2 className="text-lg font-medium -mb-2">Sailing</h2>
         {/* <SkeletonCarousel rows={3} cols={forecastDays} /> */}
@@ -281,9 +310,9 @@ const App = () => {
       < div className="card text-center" >
         {/* <button className="btn-secondary" onClick={getLocation}>Get location</button> */}
 
-        < h1 className="text-xl font-bold text-start" >
-          Daily forecast
-        </h1 >
+        <h1 className="text-xl font-bold text-start" >
+          Daily weather forecast
+        </h1>
 
         <hr className="mt-2" />
 
