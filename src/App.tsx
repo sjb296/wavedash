@@ -248,7 +248,11 @@ const App = () => {
           forecast && forecast.locality !== null
             ?
             <h1 className="text-xl font-bold text-start">
-              {forecast!.locality}, {forecast!.principalSubdivision}
+              {
+                forecast!.locality === forecast!.principalSubdivision
+                  ? `${forecast!.locality}`
+                  : `${forecast!.locality}, ${forecast!.principalSubdivision}`
+              }
             </h1>
             :
             <div className="w-1/1 h-7 bg-gray-300 dark:bg-slate-800 rounded-md animate-pulse"></div>
